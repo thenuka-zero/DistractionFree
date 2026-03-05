@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DistractionFree — Stay focused, stay awesome</title>
+  <meta name="description" content="Hide feeds, block distracting sites, and fine-tune every platform. 33 toggles across 7 platforms, 500+ blocked domains. Free Chrome extension.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/icon32.png" type="image/png">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; background: #FDF6EC; }
+
+    body {
+      font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #5C4033;
+      background: #FDF6EC;
+      overflow-x: hidden;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    /* ===== Nav ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 246, 236, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-inner {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #3D2C2C;
+    }
+
+    .nav-brand svg { flex-shrink: 0; }
+
+    .nav-wordmark {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: #E8943C;
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      border-radius: 24px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: #D88430;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(232, 148, 60, 0.3);
+    }
+
+    .btn:active { transform: translateY(0); }
+
+    .btn-sm { padding: 8px 20px; font-size: 12px; }
+
+    /* ===== Hero ===== */
+    .hero {
+      text-align: center;
+      padding: 72px 24px 64px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .hero-mascot {
+      animation: levitate 4s ease-in-out infinite;
+      margin-bottom: 28px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-mascot::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(232, 148, 60, 0.08), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    @keyframes levitate {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .hero h1 {
+      font-size: 46px;
+      font-weight: 800;
+      color: #3D2C2C;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+      line-height: 1.15;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      font-weight: 400;
+      color: #8B7355;
+      max-width: 440px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+
+    .hero-cta { margin-bottom: 18px; }
+
+    .hero-cta .btn {
+      font-size: 16px;
+      padding: 14px 36px;
+    }
+
+    .hero-trust {
+      font-size: 12px;
+      font-weight: 600;
+      color: #B8A080;
+      letter-spacing: 0.3px;
+    }
+
+    /* ===== Feature Sections ===== */
+    .feature-section { padding: 80px 0; }
+
+    .feature-section-alt { background: #FFFFFF; }
+
+    .feature-split {
+      display: flex;
+      align-items: center;
+      gap: 56px;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .feature-split.reverse { flex-direction: row-reverse; }
+
+    .feature-text { flex: 1; }
+
+    .feature-text h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #3D2C2C;
+      margin-bottom: 14px;
+      line-height: 1.25;
+    }
+
+    .feature-text > p {
+      font-size: 15px;
+      color: #6B5555;
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .feature-visual {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Site controls */
+    .site-controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .site-control-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: #FFFFFF;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 8px rgba(232, 148, 60, 0.06);
+      transition: all 0.2s;
+    }
+
+    .site-control-card:hover {
+      box-shadow: 0 4px 16px rgba(232, 148, 60, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .site-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .site-control-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #3D2C2C;
+    }
+
+    .site-control-count {
+      font-size: 11px;
+      font-weight: 600;
+      color: #D0C0A0;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    /* Category pills */
+    .category-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .category-pill {
+      padding: 6px 16px;
+      background: #FEF4EA;
+      border: 1px solid rgba(232, 148, 60, 0.15);
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #D08030;
+      transition: all 0.2s;
+    }
+
+    .category-pill:hover {
+      background: #FCE8D4;
+      transform: translateY(-1px);
+    }
+
+    .feature-sub-detail {
+      font-size: 13px;
+      font-weight: 400;
+      color: #B8A080;
+      line-height: 1.6;
+    }
+
+    /* Mock cards */
+    .mock-card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      overflow: hidden;
+      text-align: center;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 6px 28px rgba(232, 148, 60, 0.1);
+      max-width: 310px;
+      width: 100%;
+    }
+
+    .mock-card-bar {
+      display: flex;
+      gap: 6px;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .mock-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .mock-dot:nth-child(1) { background: #FFB5B5; }
+    .mock-dot:nth-child(2) { background: #FFE0A3; }
+    .mock-dot:nth-child(3) { background: #B5E8B5; }
+
+    .mock-card-body { padding: 24px 20px; }
+
+    .mock-site-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 18px;
+      justify-content: center;
+    }
+
+    .mock-site-tab {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 12px;
+      color: #D0C0A0;
+    }
+
+    .mock-site-tab.active {
+      background: #E8943C;
+      color: #FFFFFF;
+    }
+
+    .mock-card-mascot { margin-bottom: 12px; }
+
+    .mock-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #3D2C2C;
+      margin-bottom: 10px;
+    }
+
+    .mock-card-quote {
+      font-size: 13px;
+      color: #8B7355;
+      line-height: 1.7;
+      margin-bottom: 6px;
+      font-style: italic;
+    }
+
+    .mock-card-author {
+      font-size: 11px;
+      font-weight: 600;
+      color: #D0C0A0;
+      margin-bottom: 18px;
+    }
+
+    .mock-card-btn {
+      display: inline-block;
+      padding: 7px 20px;
+      background: #E8943C;
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 16px;
+    }
+
+    /* Toggle list */
+    .mock-toggle-list {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mock-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .mock-toggle-row:last-child { border-bottom: none; }
+
+    .mock-toggle-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #5C4033;
+    }
+
+    .mock-toggle-switch {
+      width: 34px;
+      height: 18px;
+      border-radius: 9px;
+      background: #E8943C;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .mock-toggle-switch::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: white;
+      top: 2px;
+      right: 2px;
+    }
+
+    .mock-toggle-switch.off { background: #E8D8C8; }
+
+    .mock-toggle-switch.off::after {
+      right: auto;
+      left: 2px;
+    }
+
+    /* ===== How It Works ===== */
+    .how-it-works {
+      padding: 80px 0;
+      background: #FFFFFF;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: #3D2C2C;
+      margin-bottom: 40px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .step { text-align: center; }
+
+    .step-number {
+      font-size: 18px;
+      font-weight: 800;
+      color: #FFFFFF;
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #E8943C;
+      margin-bottom: 16px;
+    }
+
+    .step h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #3D2C2C;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: #8B7355;
+      line-height: 1.7;
+    }
+
+    /* ===== CTA ===== */
+    .cta-banner {
+      padding: 80px 24px;
+      text-align: center;
+    }
+
+    .cta-banner h2 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #3D2C2C;
+      margin-bottom: 12px;
+    }
+
+    .cta-banner p {
+      font-size: 15px;
+      color: #8B7355;
+      margin-bottom: 32px;
+    }
+
+    .cta-banner .btn {
+      font-size: 16px;
+      padding: 14px 36px;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      text-align: center;
+      padding: 36px 24px 44px;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .footer-note {
+      font-size: 13px;
+      color: #D0C0A0;
+      margin-bottom: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      font-weight: 600;
+      color: #E8943C;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .footer-links a:hover { opacity: 0.6; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .feature-split, .feature-split.reverse {
+        flex-direction: column;
+        gap: 36px;
+      }
+      .feature-visual { order: -1; }
+      .feature-text h2 { font-size: 24px; }
+      .site-controls-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 32px; }
+      .hero h1 { font-size: 34px; }
+      .section-title { font-size: 24px; }
+      .cta-banner h2 { font-size: 26px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 48px 16px 40px; }
+      .hero h1 { font-size: 30px; }
+      .hero-cta .btn { font-size: 15px; padding: 12px 28px; }
+      .mock-card-body { padding: 20px 16px; }
+      .feature-section { padding: 56px 0; }
+    }
+
+    /* ===== Floating petals ===== */
+    .petals {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      width: 6px;
+      height: 8px;
+      background: #F5D0A0;
+      border-radius: 50% 0 50% 50%;
+      opacity: 0;
+      animation: drift linear infinite;
+    }
+
+    .petal:nth-child(1) { left: 10%; width: 5px; height: 7px; animation-duration: 18s; animation-delay: 0s; }
+    .petal:nth-child(2) { left: 25%; width: 7px; height: 9px; animation-duration: 22s; animation-delay: 3s; }
+    .petal:nth-child(3) { left: 45%; width: 5px; height: 7px; animation-duration: 16s; animation-delay: 7s; }
+    .petal:nth-child(4) { left: 65%; width: 6px; height: 8px; animation-duration: 20s; animation-delay: 1s; }
+    .petal:nth-child(5) { left: 82%; width: 5px; height: 6px; animation-duration: 19s; animation-delay: 5s; }
+    .petal:nth-child(6) { left: 93%; width: 4px; height: 6px; animation-duration: 24s; animation-delay: 9s; }
+
+    @keyframes drift {
+      0% { top: -10px; opacity: 0; transform: rotate(0deg) translateX(0); }
+      10% { opacity: 0.25; }
+      90% { opacity: 0.15; }
+      100% { top: 105%; opacity: 0; transform: rotate(180deg) translateX(20px); }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="petals">
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+  </div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <!-- Nav orange mascot -->
+        <svg width="30" height="30" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="100" cy="115" rx="72" ry="68" fill="#E8943C"/>
+          <ellipse cx="80" cy="95" rx="30" ry="22" fill="#F0B870" opacity="0.5"/>
+          <rect x="95" y="42" width="10" height="18" rx="5" fill="#5B8C3E"/>
+          <ellipse cx="82" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(-25 82 52)"/>
+          <ellipse cx="118" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(25 118 52)"/>
+          <ellipse cx="80" cy="112" rx="8" ry="9" fill="#3D2417"/>
+          <ellipse cx="120" cy="112" rx="8" ry="9" fill="#3D2417"/>
+          <circle cx="83" cy="108" r="3.5" fill="white"/>
+          <circle cx="123" cy="108" r="3.5" fill="white"/>
+          <path d="M88 126 Q100 138 112 126" stroke="#3D2417" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <ellipse cx="66" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
+          <ellipse cx="134" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
+        </svg>
+        <span class="nav-wordmark">Distraction<span style="color:#E8943C">Free</span></span>
+      </a>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <a href="bookshelf.html" style="font-size:13px;font-weight:700;color:#E8943C;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">🍊's Bookshelf</a>
+        <a href="#" class="btn btn-sm">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-mascot">
+      <!-- Happy floating orange mascot -->
+      <svg width="140" height="140" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Body -->
+        <ellipse cx="100" cy="115" rx="72" ry="68" fill="#E8943C"/>
+        <!-- Highlight -->
+        <ellipse cx="80" cy="95" rx="30" ry="22" fill="#F0B870" opacity="0.5"/>
+        <!-- Stem -->
+        <rect x="95" y="42" width="10" height="18" rx="5" fill="#5B8C3E"/>
+        <!-- Leaves -->
+        <ellipse cx="82" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(-25 82 52)"/>
+        <ellipse cx="118" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(25 118 52)"/>
+        <!-- Eyes -->
+        <ellipse cx="80" cy="112" rx="8" ry="9" fill="#3D2417"/>
+        <ellipse cx="120" cy="112" rx="8" ry="9" fill="#3D2417"/>
+        <circle cx="83" cy="108" r="3.5" fill="white"/>
+        <circle cx="123" cy="108" r="3.5" fill="white"/>
+        <!-- Smile -->
+        <path d="M88 126 Q100 138 112 126" stroke="#3D2417" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <!-- Blush -->
+        <ellipse cx="66" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
+        <ellipse cx="134" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
+      </svg>
+    </div>
+    <h1>Stay focused, stay awesome</h1>
+    <p class="hero-sub">We hide the distracting stuff so you can focus on what actually matters. No more doom-scrolling!</p>
+    <div class="hero-cta">
+      <a href="#" class="btn">Add to Chrome &mdash; It's Free</a>
+    </div>
+    <p class="hero-trust">&#10024; 33 toggles &middot; 7 platforms &middot; 500+ blocked domains</p>
+  </section>
+
+  <section class="feature-section feature-section-alt">
+    <div class="feature-split">
+      <div class="feature-text">
+        <h2>Pick exactly what to hide</h2>
+        <p>Every platform is different, so your controls should be too. Hide the feed without losing search. Remove comments without losing the video. Filter news out of Google Search results. You decide what stays and what goes!</p>
+        <div class="site-controls-grid">
+          <div class="site-control-card">
+            <span class="site-dot" style="background:#0A66C2"></span>
+            <span class="site-control-name">LinkedIn</span>
+            <span class="site-control-count">5 toggles</span>
+          </div>
+          <div class="site-control-card">
+            <span class="site-dot" style="background:#FF4500"></span>
+            <span class="site-control-name">Reddit</span>
+            <span class="site-control-count">5 toggles</span>
+          </div>
+          <div class="site-control-card">
+            <span class="site-dot" style="background:#FF0000"></span>
+            <span class="site-control-name">YouTube</span>
+            <span class="site-control-count">7 toggles</span>
+          </div>
+          <div class="site-control-card">
+            <span class="site-dot" style="background:#1877F2"></span>
+            <span class="site-control-name">Facebook</span>
+            <span class="site-control-count">5 toggles</span>
+          </div>
+          <div class="site-control-card">
+            <span class="site-dot" style="background:#E4405F"></span>
+            <span class="site-control-name">Instagram</span>
+            <span class="site-control-count">5 toggles</span>
+          </div>
+          <div class="site-control-card">
+            <span class="site-dot" style="background:#1DA1F2"></span>
+            <span class="site-control-name">Twitter / X</span>
+            <span class="site-control-count">4 toggles</span>
+          </div>
+          <div class="site-control-card">
+            <span class="site-dot" style="background:#4285F4"></span>
+            <span class="site-control-name">Google</span>
+            <span class="site-control-count">2 toggles</span>
+          </div>
+        </div>
+        <p class="feature-sub-detail">33 toggles across 7 platforms</p>
+      </div>
+      <div class="feature-visual">
+        <div class="mock-card">
+          <div class="mock-card-bar">
+            <span class="mock-dot"></span>
+            <span class="mock-dot"></span>
+            <span class="mock-dot"></span>
+          </div>
+          <div class="mock-card-body">
+            <div class="mock-site-tabs">
+              <span class="mock-site-tab">LinkedIn</span>
+              <span class="mock-site-tab active">YouTube</span>
+              <span class="mock-site-tab">Reddit</span>
+              <span class="mock-site-tab">Google</span>
+            </div>
+            <div class="mock-toggle-list">
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Home Feed</span><span class="mock-toggle-switch"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Shorts</span><span class="mock-toggle-switch"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Comments</span><span class="mock-toggle-switch"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Related Videos</span><span class="mock-toggle-switch off"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">End Screen Cards</span><span class="mock-toggle-switch off"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Notifications</span><span class="mock-toggle-switch"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Trending</span><span class="mock-toggle-switch"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature-section">
+    <div class="feature-split reverse">
+      <div class="feature-text">
+        <h2>Block entire sites by category</h2>
+        <p>Sometimes you need the nuclear option. Toggle a category and hundreds of sites are instantly blocked. When you visit one, you'll see a calming page with an inspirational quote instead.</p>
+        <div class="category-pills">
+          <span class="category-pill">Social Media</span>
+          <span class="category-pill">News</span>
+          <span class="category-pill">Entertainment</span>
+          <span class="category-pill">Gaming</span>
+          <span class="category-pill">Shopping</span>
+        </div>
+        <p class="feature-sub-detail">500+ domains pre-loaded &middot; Add your own custom URLs</p>
+      </div>
+      <div class="feature-visual">
+        <div class="mock-card">
+          <div class="mock-card-bar">
+            <span class="mock-dot"></span>
+            <span class="mock-dot"></span>
+            <span class="mock-dot"></span>
+          </div>
+          <div class="mock-card-body">
+            <div class="mock-card-mascot">
+              <!-- Orange mascot, rendered smaller -->
+              <svg width="56" height="56" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="100" cy="115" rx="72" ry="68" fill="#E8943C"/>
+                <ellipse cx="80" cy="95" rx="30" ry="22" fill="#F0B870" opacity="0.5"/>
+                <rect x="95" y="42" width="10" height="18" rx="5" fill="#5B8C3E"/>
+                <ellipse cx="82" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(-25 82 52)"/>
+                <ellipse cx="118" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(25 118 52)"/>
+                <ellipse cx="80" cy="112" rx="8" ry="9" fill="#3D2417"/>
+                <ellipse cx="120" cy="112" rx="8" ry="9" fill="#3D2417"/>
+                <circle cx="83" cy="108" r="3.5" fill="white"/>
+                <circle cx="123" cy="108" r="3.5" fill="white"/>
+                <path d="M88 126 Q100 138 112 126" stroke="#3D2417" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                <ellipse cx="66" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
+                <ellipse cx="134" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
+              </svg>
+            </div>
+            <p class="mock-card-title">This site is blocked</p>
+            <p class="mock-card-quote">&ldquo;Almost everything will work again if you unplug it for a few minutes &mdash; including you.&rdquo;</p>
+            <p class="mock-card-author">&mdash; Anne Lamott</p>
+            <span class="mock-card-btn">Go Back</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works">
+    <h2 class="section-title">Getting started is easy</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Install the extension</h3>
+        <p>One click from the Chrome Web Store. No account needed!</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Pick what to block</h3>
+        <p>Toggle specific elements on each site, block entire categories, or add your own custom domains.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Focus time!</h3>
+        <p>Blocked content is replaced with a peaceful page and a motivational quote. Change your mind? Toggle it back instantly.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <h2>Ready to take back your focus?</h2>
+    <p>Free forever. No account needed. Works instantly.</p>
+    <a href="#" class="btn">Add to Chrome &mdash; It's Free</a>
+  </section>
+
+  <footer>
+    <p class="footer-note">Made with &#129505; for your focus</p>
+    <div class="footer-links">
+      <a href="#">Chrome Web Store</a>
+      <a href="#">GitHub</a>
+    </div>
+  </footer>
+
+</body>
+</html>

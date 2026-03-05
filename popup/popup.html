@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=320">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+  <title>DistractionFree</title>
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header with mascot -->
+    <div class="header">
+      <div class="mascot">
+        <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="34" r="26" fill="#7C5CFC"/>
+          <ellipse cx="32" cy="58" rx="18" ry="3" fill="#E8D5FF" opacity="0.4"/>
+          <!-- Ears -->
+          <circle cx="14" cy="16" r="8" fill="#9B7FFF"/>
+          <circle cx="14" cy="16" r="5" fill="#E8D5FF"/>
+          <circle cx="50" cy="16" r="8" fill="#9B7FFF"/>
+          <circle cx="50" cy="16" r="5" fill="#E8D5FF"/>
+          <!-- Eyes -->
+          <ellipse cx="23" cy="30" rx="5" ry="5.5" fill="white"/>
+          <ellipse cx="41" cy="30" rx="5" ry="5.5" fill="white"/>
+          <circle cx="24" cy="31" r="3" fill="#2D1B69"/>
+          <circle cx="42" cy="31" r="3" fill="#2D1B69"/>
+          <circle cx="25" cy="29.5" r="1.2" fill="white"/>
+          <circle cx="43" cy="29.5" r="1.2" fill="white"/>
+          <!-- Blush -->
+          <ellipse cx="15" cy="36" rx="5" ry="3" fill="#FFB5D9" opacity="0.5"/>
+          <ellipse cx="49" cy="36" rx="5" ry="3" fill="#FFB5D9" opacity="0.5"/>
+          <!-- Smile -->
+          <path d="M26 40 Q32 47 38 40" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <!-- Star on head -->
+          <polygon points="32,6 34,12 40,12 35,16 37,22 32,18 27,22 29,16 24,12 30,12" fill="#FFD93D" stroke="#FFB800" stroke-width="0.5"/>
+        </svg>
+      </div>
+      <h1 class="title">DistractionFree</h1>
+      <p class="subtitle">Stay focused, stay awesome!</p>
+    </div>
+
+    <!-- LinkedIn section -->
+    <div class="section">
+      <div class="section-label">💼 LinkedIn</div>
+
+      <div class="toggle-row" data-site="linkedin" data-key="feedEnabled">
+        <div class="toggle-info">
+          <span class="site-name">Hide Feed</span>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="footer">
+      Made with 💜 to help you focus
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

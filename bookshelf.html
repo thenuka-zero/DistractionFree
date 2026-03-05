@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍊's Bookshelf — DistractionFree</title>
+  <meta name="description" content="Quick micro-guides to help you set up every DistractionFree feature in seconds.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/icon32.png" type="image/png">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; background: #FDF6EC; }
+
+    body {
+      font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #5C4033;
+      background: #FDF6EC;
+      overflow-x: hidden;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    /* ===== Nav ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 246, 236, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-inner {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #3D2C2C;
+    }
+
+    .nav-brand svg { flex-shrink: 0; }
+
+    .nav-wordmark {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      font-weight: 700;
+      color: #E8943C;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .nav-link:hover { opacity: 0.7; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: #E8943C;
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      border-radius: 24px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: #D88430;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(232, 148, 60, 0.3);
+    }
+
+    .btn:active { transform: translateY(0); }
+    .btn-sm { padding: 8px 20px; font-size: 12px; }
+
+    /* ===== Bookshelf header ===== */
+    .bookshelf-hero {
+      text-align: center;
+      padding: 56px 24px 0;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .bookshelf-hero-icon { font-size: 48px; margin-bottom: 8px; }
+
+    .bookshelf-hero h1 {
+      font-size: 36px;
+      font-weight: 800;
+      color: #3D2C2C;
+      letter-spacing: -0.3px;
+      margin-bottom: 10px;
+    }
+
+    .bookshelf-hero p {
+      font-size: 16px;
+      color: #8B7355;
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ===== Filters ===== */
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 32px 24px 40px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .filter-pill {
+      padding: 7px 20px;
+      background: #FEF4EA;
+      border: 1px solid rgba(232, 148, 60, 0.15);
+      border-radius: 24px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: #D08030;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-pill:hover {
+      background: #FCE8D4;
+      transform: translateY(-1px);
+    }
+
+    .filter-pill.active {
+      background: #E8943C;
+      color: #FFFFFF;
+      border-color: #E8943C;
+    }
+
+    /* ===== Shelf grid ===== */
+    .shelf {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .shelf-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding-bottom: 20px;
+      margin-bottom: 28px;
+      border-bottom: 3px solid #E4D5C0;
+      position: relative;
+    }
+
+    .shelf-row::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 8px;
+      right: 8px;
+      height: 3px;
+      background: linear-gradient(to bottom, rgba(200, 180, 152, 0.15), transparent);
+      border-radius: 0 0 2px 2px;
+    }
+
+    /* ===== Book card ===== */
+    .book {
+      aspect-ratio: 4 / 5;
+      border-radius: 4px 12px 12px 4px;
+      background: #FFFFFF;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    .book::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      border-radius: 4px 0 0 4px;
+    }
+
+    .book:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.13);
+    }
+
+    .book[data-category="youtube"]::before { background: #FF0000; }
+    .book[data-category="google"]::before { background: #4285F4; }
+    .book[data-category="social"]::before { background: #E4405F; }
+    .book[data-category="general"]::before { background: #E8943C; }
+
+    .book-cover {
+      flex: 0 0 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      position: relative;
+    }
+
+    .book[data-category="youtube"] .book-cover { background: #FFF0F0; }
+    .book[data-category="google"] .book-cover { background: #F0F4FF; }
+    .book[data-category="social"] .book-cover { background: #FFF0F4; }
+    .book[data-category="general"] .book-cover { background: #FEF4EA; }
+
+    .book-cover::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(0,0,0,0.035) 1px, transparent 1px);
+      background-size: 10px 10px;
+      pointer-events: none;
+    }
+
+    .book-info {
+      flex: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .book-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #3D2C2C;
+      line-height: 1.3;
+    }
+
+    .book-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      align-self: flex-start;
+      margin-top: 6px;
+    }
+
+    .book[data-category="youtube"] .book-badge { background: #FFF0F0; color: #CC0000; }
+    .book[data-category="google"] .book-badge { background: #F0F4FF; color: #3367D6; }
+    .book[data-category="social"] .book-badge { background: #FFF0F4; color: #C13584; }
+    .book[data-category="general"] .book-badge { background: #FEF4EA; color: #D08030; }
+
+    .book.hidden { display: none; }
+
+    /* ===== Guide page ===== */
+    .guide-page {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      display: none;
+    }
+
+    .guide-page.visible { display: block; }
+
+    .guide-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #E8943C;
+      text-decoration: none;
+      margin-bottom: 32px;
+      transition: opacity 0.2s;
+    }
+
+    .guide-back:hover { opacity: 0.7; }
+
+    .guide-emoji {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .guide-page h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #3D2C2C;
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .guide-page-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .guide-page-badge[data-category="youtube"] { background: #FFF0F0; color: #CC0000; }
+    .guide-page-badge[data-category="google"] { background: #F0F4FF; color: #3367D6; }
+    .guide-page-badge[data-category="social"] { background: #FFF0F4; color: #C13584; }
+    .guide-page-badge[data-category="general"] { background: #FEF4EA; color: #D08030; }
+
+    .guide-page-desc {
+      font-size: 16px;
+      color: #8B7355;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .guide-steps {
+      list-style: none;
+      counter-reset: guide-step;
+      margin-bottom: 40px;
+    }
+
+    .guide-steps li {
+      counter-increment: guide-step;
+      padding: 14px 0 14px 52px;
+      position: relative;
+      font-size: 15px;
+      color: #5C4033;
+      line-height: 1.6;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .guide-steps li:last-child { border-bottom: none; }
+
+    .guide-steps li::before {
+      content: counter(guide-step);
+      position: absolute;
+      left: 0;
+      top: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #FEF4EA;
+      color: #E8943C;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .guide-body { margin-bottom: 40px; }
+
+    .guide-body h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #3D2C2C;
+      margin: 28px 0 10px;
+      line-height: 1.3;
+    }
+
+    .guide-body h2:first-child { margin-top: 0; }
+
+    .guide-body p {
+      font-size: 15px;
+      color: #5C4033;
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    .guide-body p:last-child { margin-bottom: 0; }
+
+    /* ===== Guide mocks ===== */
+    .guide-mock { margin: 28px 0; }
+
+    .gm {
+      background: #FFFFFF;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 20px rgba(232, 148, 60, 0.08);
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .gm-hdr {
+      display: flex;
+      gap: 5px;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .gm-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .gm-dot:nth-child(1) { background: #FFB5B5; }
+    .gm-dot:nth-child(2) { background: #FFE0A3; }
+    .gm-dot:nth-child(3) { background: #B5E8B5; }
+
+    .gm-bd { padding: 16px; }
+
+    .gm-tabs {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .gm-tab {
+      font-size: 9px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 10px;
+      color: #D0C0A0;
+    }
+
+    .gm-tab.on { background: #E8943C; color: #FFF; }
+
+    .gm-tgl { text-align: left; }
+
+    .gm-r {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .gm-r:last-child { border-bottom: none; }
+
+    .gm-r.hl {
+      background: #FEF4EA;
+      margin: 2px -16px;
+      padding: 6px 16px;
+      border-radius: 8px;
+      border-bottom-color: transparent;
+    }
+
+    .gm-rl { font-size: 11px; font-weight: 600; color: #5C4033; }
+
+    .gm-sw {
+      width: 30px;
+      height: 16px;
+      border-radius: 8px;
+      background: #E8943C;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .gm-sw::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: white;
+      top: 2px;
+      right: 2px;
+    }
+
+    .gm-sw.off { background: #E8D8C8; }
+    .gm-sw.off::after { right: auto; left: 2px; }
+
+    /* Before / after comparison */
+    .gm-cmp {
+      display: flex;
+      gap: 14px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .gm-cmp > div { flex: 1; text-align: center; }
+
+    .gm-cmp-lbl {
+      font-size: 10px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      padding: 3px 10px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    .gm-cmp-b .gm-cmp-lbl { background: #FFECEC; color: #D44; }
+    .gm-cmp-a .gm-cmp-lbl { background: #ECFFEC; color: #4A4; }
+
+    .gm-f {
+      background: #FFF;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 10px;
+      text-align: left;
+      min-height: 130px;
+    }
+
+    /* Frame primitives */
+    .gm-sb { height: 8px; background: #EEEAE4; border-radius: 4px; margin: 0 auto 10px; width: 65%; }
+    .gm-ln { height: 5px; background: #EEEAE4; border-radius: 3px; margin-bottom: 5px; }
+    .gm-ln.w40 { width: 40%; }
+    .gm-ln.w60 { width: 60%; }
+    .gm-ln.w80 { width: 80%; }
+    .gm-bk { background: #F5F0EA; border-radius: 6px; margin-bottom: 6px; }
+    .gm-bk-s { height: 24px; }
+    .gm-bk-m { height: 36px; }
+    .gm-bk-l { height: 48px; }
+    .gm-bk.dn { border: 1.5px dashed #FF8888; background: #FFF5F5; }
+    .gm-g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 6px; }
+    .gm-g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 6px; }
+    .gm-fx { display: flex; gap: 8px; }
+    .gm-fx-m { flex: 1; }
+    .gm-fx-s { width: 35%; }
+    .gm-tt { font-size: 7px; color: #C8B898; font-weight: 600; text-align: center; padding: 4px 0; }
+
+    /* Blocked page mini-mock */
+    .gm-bl { text-align: center; padding: 12px 8px; }
+    .gm-bl-e { font-size: 20px; margin-bottom: 4px; }
+    .gm-bl-t { font-size: 9px; font-weight: 700; color: #3D2C2C; margin-bottom: 3px; }
+    .gm-bl-q { font-size: 7px; color: #8B7355; font-style: italic; line-height: 1.5; margin-bottom: 6px; }
+    .gm-bl-b { display: inline-block; padding: 3px 10px; background: #E8943C; color: white; font-size: 7px; font-weight: 700; border-radius: 8px; }
+
+    /* Custom URL input mock */
+    .gm-inp {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: #F5F0EA;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .gm-inp-f { flex: 1; font-size: 9px; color: #B8A080; font-weight: 600; }
+    .gm-inp-b {
+      width: 18px; height: 18px;
+      background: #E8943C; border-radius: 50%;
+      color: white; font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; line-height: 1;
+    }
+
+    .gm-url {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      font-size: 9px; font-weight: 600; color: #5C4033;
+    }
+
+    .gm-url-x { color: #D0C0A0; font-size: 9px; }
+
+    .gm-cap {
+      text-align: center;
+      font-size: 12px;
+      color: #B8A080;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    @media (max-width: 480px) {
+      .gm-cmp { flex-direction: column; max-width: 240px; }
+      .gm { max-width: 280px; }
+    }
+
+    .guide-related {
+      margin-bottom: 40px;
+    }
+
+    .guide-related h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #3D2C2C;
+      margin-bottom: 16px;
+    }
+
+    .guide-related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .guide-related-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      background: #FFFFFF;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+    }
+
+    .guide-related-card:hover {
+      box-shadow: 0 4px 16px rgba(232, 148, 60, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .guide-related-emoji { font-size: 24px; flex-shrink: 0; }
+
+    .guide-related-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #3D2C2C;
+      line-height: 1.3;
+    }
+
+    .guide-cta {
+      padding: 28px;
+      background: #FFFFFF;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .guide-cta p {
+      font-size: 14px;
+      color: #8B7355;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .guide-related-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      text-align: center;
+      padding: 36px 24px 44px;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .footer-note {
+      font-size: 13px;
+      color: #D0C0A0;
+      margin-bottom: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      font-weight: 600;
+      color: #E8943C;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .footer-links a:hover { opacity: 0.6; }
+
+    /* ===== Floating petals ===== */
+    .petals {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      width: 6px;
+      height: 8px;
+      background: #F5D0A0;
+      border-radius: 50% 0 50% 50%;
+      opacity: 0;
+      animation: drift linear infinite;
+    }
+
+    .petal:nth-child(1) { left: 10%; width: 5px; height: 7px; animation-duration: 18s; animation-delay: 0s; }
+    .petal:nth-child(2) { left: 25%; width: 7px; height: 9px; animation-duration: 22s; animation-delay: 3s; }
+    .petal:nth-child(3) { left: 45%; width: 5px; height: 7px; animation-duration: 16s; animation-delay: 7s; }
+    .petal:nth-child(4) { left: 65%; width: 6px; height: 8px; animation-duration: 20s; animation-delay: 1s; }
+    .petal:nth-child(5) { left: 82%; width: 5px; height: 6px; animation-duration: 19s; animation-delay: 5s; }
+    .petal:nth-child(6) { left: 93%; width: 4px; height: 6px; animation-duration: 24s; animation-delay: 9s; }
+
+    @keyframes drift {
+      0% { top: -10px; opacity: 0; transform: rotate(0deg) translateX(0); }
+      10% { opacity: 0.25; }
+      90% { opacity: 0.15; }
+      100% { top: 105%; opacity: 0; transform: rotate(180deg) translateX(20px); }
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .shelf-row { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .bookshelf-hero h1 { font-size: 28px; }
+      .book-title { font-size: 12px; }
+      .guide-page h1 { font-size: 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .bookshelf-hero { padding: 40px 16px 0; }
+      .bookshelf-hero h1 { font-size: 24px; }
+      .shelf-row { grid-template-columns: 1fr; max-width: 240px; margin-left: auto; margin-right: auto; }
+      .shelf { padding: 0 16px 56px; }
+      .guide-page { padding: 32px 16px 56px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="petals">
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+    <div class="petal"></div>
+  </div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <svg width="30" height="30" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="100" cy="115" rx="72" ry="68" fill="#E8943C"/>
+          <ellipse cx="80" cy="95" rx="30" ry="22" fill="#F0B870" opacity="0.5"/>
+          <rect x="95" y="42" width="10" height="18" rx="5" fill="#5B8C3E"/>
+          <ellipse cx="82" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(-25 82 52)"/>
+          <ellipse cx="118" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(25 118 52)"/>
+          <ellipse cx="80" cy="112" rx="8" ry="9" fill="#3D2417"/>
+          <ellipse cx="120" cy="112" rx="8" ry="9" fill="#3D2417"/>
+          <circle cx="83" cy="108" r="3.5" fill="white"/>
+          <circle cx="123" cy="108" r="3.5" fill="white"/>
+          <path d="M88 126 Q100 138 112 126" stroke="#3D2417" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <ellipse cx="66" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
+          <ellipse cx="134" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
+        </svg>
+        <span class="nav-wordmark">Distraction<span style="color:#E8943C">Free</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="bookshelf.html" class="nav-link">🍊's Bookshelf</a>
+        <a href="#" class="btn btn-sm">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Grid view -->
+  <div id="grid-view">
+    <div class="bookshelf-hero">
+      <div class="bookshelf-hero-icon">📚</div>
+      <h1>🍊's Bookshelf</h1>
+      <p>A cozy corner of the internet — quick micro-guides to help you set up every feature in seconds.</p>
+    </div>
+
+    <div class="filters" id="filters"></div>
+
+    <div class="shelf" id="shelf"></div>
+  </div>
+
+  <!-- Individual guide view -->
+  <div class="guide-page" id="guide-page">
+    <a href="bookshelf.html" class="guide-back" id="guide-back">&larr; Back to Bookshelf</a>
+    <div class="guide-emoji" id="guide-emoji"></div>
+    <h1 id="guide-title"></h1>
+    <span class="guide-page-badge" id="guide-badge"></span>
+    <p class="guide-page-desc" id="guide-desc"></p>
+    <div class="guide-mock" id="guide-mock-compare"></div>
+    <ol class="guide-steps" id="guide-steps"></ol>
+    <div class="guide-mock" id="guide-mock-popup"></div>
+    <div class="guide-body" id="guide-body"></div>
+    <div class="guide-related" id="guide-related">
+      <h2>Keep reading</h2>
+      <div class="guide-related-grid" id="guide-related-grid"></div>
+    </div>
+    <div class="guide-cta">
+      <p>Ready to try it?</p>
+      <a href="#" class="btn">Add to Chrome &mdash; It's Free</a>
+    </div>
+  </div>
+
+  <footer>
+    <p class="footer-note">Made with &#129505; for your focus</p>
+    <div class="footer-links">
+      <a href="#">Chrome Web Store</a>
+      <a href="#">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var guides = [
+        {
+          slug: "hide-youtube-shorts",
+          emoji: "\ud83d\udeab", title: "How to Hide YouTube Shorts", platform: "YouTube",
+          category: "youtube",
+          description: "Stop the endless scroll of short-form videos on YouTube.",
+          steps: [
+            "Click the DistractionFree icon in your browser toolbar to open the popup",
+            "Find the YouTube section in the list of supported platforms",
+            "Locate the \u201cShorts\u201d toggle and switch it to ON",
+            "Refresh any YouTube page you have open \u2014 Shorts are now hidden"
+          ],
+          body: [
+            {type:"h2",text:"Why YouTube Shorts are so distracting"},
+            {type:"p",text:"YouTube Shorts were introduced as a competitor to TikTok, and they use the same core mechanic that makes short-form video so addictive: an infinite vertical feed of bite-sized clips that auto-play one after another. Each video is under 60 seconds, which means there is never a natural stopping point. You finish one, and the next begins instantly. Before you know it, thirty minutes have vanished."},
+            {type:"p",text:"The problem is compounded by where Shorts appear. They are not limited to a single tab. YouTube inserts Shorts into your Home feed, your search results, your subscription feed, and even the sidebar on video pages. Even if you never deliberately open the Shorts tab, you are constantly being nudged toward them. For anyone trying to use YouTube intentionally \u2014 watching a specific tutorial, listening to a lecture, or following a course \u2014 Shorts are a constant detour."},
+            {type:"h2",text:"What happens when you enable this toggle"},
+            {type:"p",text:"When you turn on the Shorts toggle in DistractionFree, the extension removes Shorts from every surface on YouTube. The Shorts tab in the left sidebar disappears. Shorts shelves that normally appear between rows of regular videos on the Home feed are removed. Shorts that get mixed into your search results are filtered out. If you navigate directly to a Shorts URL, you will see a clean page instead of the player."},
+            {type:"p",text:"Importantly, this does not affect regular YouTube videos. Your subscriptions, playlists, Watch Later queue, and full-length video pages all remain completely untouched. You are only removing the short-form content layer that YouTube has added on top of the platform you already know."},
+            {type:"h2",text:"Step-by-step setup"},
+            {type:"p",text:"Open any YouTube page in Chrome and click the DistractionFree icon in your toolbar. The popup will display a list of platforms. Click on the YouTube section to expand it, and you will see seven individual toggles for different parts of the YouTube interface. Find the one labeled \u201cShorts\u201d and click it so that it turns orange, indicating it is active. Close the popup, then refresh the YouTube tab. The change takes effect immediately and persists across browsing sessions until you decide to toggle it off."},
+            {type:"h2",text:"Tips for getting the most out of this feature"},
+            {type:"p",text:"Hiding Shorts works well on its own, but consider pairing it with the Home Feed toggle if you want to make YouTube truly intentional. With both enabled, visiting youtube.com shows a clean page, and you can still search for exactly the video you want or access your subscriptions directly. If you also find yourself pulled in by comment sections or the related videos sidebar, DistractionFree has separate toggles for each of those as well."},
+            {type:"p",text:"This toggle only affects YouTube within your Chrome browser. If you watch YouTube through the mobile app or a different browser, you will still see Shorts there. For a comprehensive approach, you can also use your phone\u2019s built-in screen time tools alongside DistractionFree on desktop."}
+          ],
+          related: ["hide-youtube-home-feed","hide-youtube-comments","hide-youtube-related-videos"]
+        },
+        {
+          slug: "hide-youtube-comments",
+          emoji: "\ud83d\udcac", title: "How to Hide YouTube Comments", platform: "YouTube",
+          category: "youtube",
+          description: "Remove comment sections so you can watch without the noise.",
+          steps: [
+            "Click the DistractionFree icon in your browser toolbar to open the popup",
+            "Find the YouTube section in the list of supported platforms",
+            "Locate the \u201cComments\u201d toggle and switch it to ON",
+            "Scroll down on any video page \u2014 the comment section is gone"
+          ],
+          body: [
+            {type:"h2",text:"Why hiding comments helps you focus"},
+            {type:"p",text:"YouTube comment sections are unpredictable. Beneath a helpful coding tutorial, you might find a flame war. Under an educational video, you might stumble on spoilers, negativity, or off-topic arguments. Even when the comments are positive, they pull your attention downward, away from the video you actually came to watch. Scrolling through comments often leads to more scrolling, and before long you have spent ten minutes reading opinions instead of moving on to your next task."},
+            {type:"p",text:"For many people, comments also trigger an emotional response. A rude remark under a video you enjoy can sour your mood. A controversial opinion can pull you into a mental debate. These micro-distractions accumulate throughout the day and make it harder to maintain a focused, productive mindset. If you are using YouTube as a learning tool \u2014 watching lectures, tutorials, or conference talks \u2014 the comment section rarely adds value and almost always subtracts attention."},
+            {type:"h2",text:"What this toggle does"},
+            {type:"p",text:"Enabling the Comments toggle in DistractionFree hides the entire comment section on every YouTube video page. The video player, description, and channel information all remain visible. You can still like or dislike a video, subscribe to a channel, and add the video to a playlist. The only thing that changes is that the area below the description, where comments normally load, is removed entirely."},
+            {type:"p",text:"This also prevents YouTube from loading comments in the background. Since comments can contain hundreds or thousands of entries, removing them can slightly speed up page load times on slower connections. It is a small bonus on top of the primary benefit, which is eliminating a source of distraction."},
+            {type:"h2",text:"Step-by-step setup"},
+            {type:"p",text:"Click the DistractionFree icon in your Chrome toolbar to open the popup. Expand the YouTube section by clicking on it. You will see seven toggles covering different parts of the YouTube interface. Find the \u201cComments\u201d toggle and switch it on. The toggle will turn orange to confirm it is active. Now navigate to any YouTube video and scroll down past the description. Where you would normally see comments, there is simply nothing. The page ends cleanly below the video information."},
+            {type:"h2",text:"When you might want to turn it back off"},
+            {type:"p",text:"There are legitimate reasons to read comments on occasion. Some tutorial videos have corrections or helpful additions posted by viewers. Music videos sometimes have timestamps in the comments that break the video into sections. If you need to check comments temporarily, just click the DistractionFree icon, toggle Comments off, and refresh the page. When you are done, toggle it back on. The switch is instant and requires no reinstallation or complicated setup."},
+            {type:"p",text:"If you are already hiding comments, you might also want to consider hiding related videos to further reduce distractions while watching. Together, these two toggles transform YouTube into a clean, focused video player where you watch what you came for and nothing else."}
+          ],
+          related: ["hide-youtube-related-videos","hide-youtube-shorts","hide-youtube-home-feed"]
+        },
+        {
+          slug: "hide-youtube-home-feed",
+          emoji: "\ud83c\udfe0", title: "How to Hide YouTube\u2019s Home Feed", platform: "YouTube",
+          category: "youtube",
+          description: "Replace the addictive homepage with a clean, empty page.",
+          steps: [
+            "Click the DistractionFree icon in your browser toolbar to open the popup",
+            "Find the YouTube section in the list of supported platforms",
+            "Locate the \u201cHome Feed\u201d toggle and switch it to ON",
+            "Visit youtube.com \u2014 the feed is replaced with a calm, clean page"
+          ],
+          body: [
+            {type:"h2",text:"The YouTube homepage is designed to keep you watching"},
+            {type:"p",text:"When you open youtube.com, you are presented with a grid of recommended videos that YouTube\u2019s algorithm has selected specifically for you. These recommendations are optimized for one thing: maximizing the time you spend on the platform. Every thumbnail, every title, and every placement on the page has been tested and refined to be as clickable as possible. Even if you opened YouTube to search for one specific video, the homepage can easily pull you into watching something else entirely."},
+            {type:"p",text:"This is especially problematic if you use YouTube for work or study. You might need to look up a software tutorial, a research presentation, or a how-to video. But the moment you land on the homepage, you are presented with dozens of enticing alternatives. A fascinating documentary. A new video from a creator you follow. A clip that looks like it will only take two minutes. Each of these is a potential twenty-minute detour, and the homepage offers a fresh batch every time you visit."},
+            {type:"h2",text:"What hiding the Home Feed looks like"},
+            {type:"p",text:"When you enable the Home Feed toggle in DistractionFree, visiting youtube.com shows a clean page with just the YouTube search bar and navigation. The grid of recommended videos is completely removed. You still have full access to search, your subscriptions page, your library, your Watch Later playlist, and any specific channel pages. You simply lose the algorithmically-curated wall of temptation that greets you when you first arrive."},
+            {type:"p",text:"This single toggle is often the most impactful change you can make if YouTube is a source of distraction for you. It forces you to arrive at YouTube with intention. Instead of browsing whatever the algorithm suggests, you have to actively decide what you want to watch. For many users, this small shift in behavior \u2014 from passive browsing to active searching \u2014 cuts their unplanned YouTube time in half."},
+            {type:"h2",text:"Step-by-step setup"},
+            {type:"p",text:"Click the DistractionFree icon in your Chrome toolbar. In the popup, click on the YouTube section to expand the list of available toggles. Find \u201cHome Feed\u201d and switch it to the ON position. The toggle turns orange when active. Close the popup and navigate to youtube.com. You will see the YouTube header and search bar, but the main content area where recommended videos normally appear will be empty. The change takes effect immediately and stays active until you choose to turn it off."},
+            {type:"h2",text:"Combining with other YouTube toggles"},
+            {type:"p",text:"Hiding the Home Feed is powerful on its own, but it pairs especially well with the Shorts toggle and the Related Videos toggle. With all three enabled, YouTube becomes a focused tool: you search for what you need, watch it, and leave. There are no algorithmic rabbit holes pulling you sideways. If you want to go even further, you can also hide comments to remove one more reason to linger after the video ends. DistractionFree lets you customize each toggle independently, so you can find exactly the combination that works for your workflow."}
+          ],
+          related: ["hide-youtube-shorts","hide-youtube-related-videos","block-social-media"]
+        },
+        {
+          slug: "hide-youtube-related-videos",
+          emoji: "\ud83d\udcfa", title: "How to Hide Related Videos on YouTube", platform: "YouTube",
+          category: "youtube",
+          description: "Stop the sidebar from pulling you into rabbit holes.",
+          steps: [
+            "Click the DistractionFree icon in your browser toolbar to open the popup",
+            "Find the YouTube section in the list of supported platforms",
+            "Locate the \u201cRelated Videos\u201d toggle and switch it to ON",
+            "Watch any video \u2014 no more tempting suggestions on the side or below"
+          ],
+          body: [
+            {type:"h2",text:"How related videos create rabbit holes"},
+            {type:"p",text:"When you watch a video on YouTube, the page displays a column of related videos along the right side on desktop, or a list below the video on mobile. These related videos are selected by the same recommendation algorithm that powers the homepage, and they are designed to keep you watching. Each suggestion is closely related to what you just watched, which makes every single one feel relevant and worth clicking. The result is a chain reaction: you watch one video, click a related one, then another, and suddenly an hour has passed."},
+            {type:"p",text:"This is particularly disruptive for anyone using YouTube as a tool. If you are watching a tutorial on a specific topic, the related videos might include similar tutorials that you do not need, entertaining tangents on adjacent topics, or outright clickbait. Even if you resist clicking, the mere presence of these suggestions requires mental effort to ignore. That cognitive load, repeated across every video you watch, adds up over the course of a workday."},
+            {type:"h2",text:"What this toggle changes"},
+            {type:"p",text:"When you enable the Related Videos toggle in DistractionFree, the sidebar of suggestions on desktop video pages is removed. On mobile-style layouts, the list of recommended videos that appears below the current video is also hidden. The video player itself remains unchanged. You can still pause, rewind, adjust quality, enable captions, and use every other player control as normal. The description, channel information, and any pinned comments (if you have not also hidden those) remain visible."},
+            {type:"p",text:"The practical effect is that each video becomes a standalone experience. You watch what you came to watch, and when it is over, there is nothing else vying for your attention. If you want to watch another video, you need to deliberately search for it or navigate to a channel page. This small friction is often enough to break the auto-pilot cycle of clicking through recommendations."},
+            {type:"h2",text:"Step-by-step setup"},
+            {type:"p",text:"Click the DistractionFree icon in your toolbar, expand the YouTube section, and find the \u201cRelated Videos\u201d toggle. Switch it on so it turns orange. Close the popup, then navigate to any YouTube video page. The right sidebar where recommended videos normally appear will be gone. The video player will have more room to breathe, and the page will feel noticeably cleaner. This setting persists across sessions, so you only need to set it once."},
+            {type:"h2",text:"Pairing with other toggles for full focus"},
+            {type:"p",text:"Hiding related videos is one of the most effective toggles in DistractionFree when combined with hiding the Home Feed. Together, they eliminate the two biggest sources of algorithmic recommendations on YouTube. If you also want to remove the urge to scroll into the comments, you can enable that toggle too. And for Shorts specifically, there is a dedicated toggle that removes short-form content from every surface. Each of these toggles is independent, so you can experiment with different combinations until you find the setup that works best for how you use YouTube."}
+          ],
+          related: ["hide-youtube-comments","hide-youtube-home-feed","hide-youtube-shorts"]
+        },
+        {
+          slug: "block-google-news",
+          emoji: "\ud83d\udcf0", title: "How to Block News on Google Search", platform: "Google",
+          category: "google",
+          description: "Filter out news results and top stories from Google searches.",
+          steps: [
+            "Click the DistractionFree icon in your browser toolbar to open the popup",
+            "Find the Google section in the list of supported platforms",
+            "Locate the \u201cNews & Top Stories\u201d toggle and switch it to ON",
+            "Search on Google \u2014 news widgets and top stories are hidden from results"
+          ],
+          body: [
+            {type:"h2",text:"Why news in search results is distracting"},
+            {type:"p",text:"Google Search is supposed to help you find answers to specific questions. But over the years, Google has added increasingly prominent news modules to search result pages. The \u201cTop Stories\u201d carousel often appears at the very top of results, above the links you are actually looking for. News widgets appear in sidebars and between organic results. Even simple, informational searches can surface breaking news stories or trending headlines that have nothing to do with your query."},
+            {type:"p",text:"The issue is not that news is inherently bad. The issue is context. When you are searching for documentation on a programming library, a recipe, or directions to a restaurant, a headline about a political crisis or a celebrity scandal is pure noise. It pulls your attention away from the task at hand and into a completely different mental space. For people who are trying to stay focused during work hours, these surprise headlines can be the first domino in a chain of distraction that leads to twenty minutes of news reading."},
+            {type:"h2",text:"What this toggle removes"},
+            {type:"p",text:"Enabling the News & Top Stories toggle in DistractionFree removes news-related modules from Google Search result pages. The Top Stories carousel that normally appears near the top of results is hidden. News cards that appear between regular search results are removed. The sidebar widgets that highlight trending news stories are also filtered out. Your regular organic search results, featured snippets, knowledge panels, and other standard Google features remain completely untouched."},
+            {type:"p",text:"This means you still get the full power of Google for finding information. You are simply removing the layer of current-events content that Google has added to keep you engaged. If you specifically want to read the news, you can always go directly to a news site or use Google News. But when you are searching for something specific and work-related, news will no longer interrupt your flow."},
+            {type:"h2",text:"Step-by-step setup"},
+            {type:"p",text:"Click the DistractionFree icon in your toolbar to open the popup. Find the Google section and click on it to expand the available toggles. There are two toggles for Google, and the one you want is labeled \u201cNews & Top Stories.\u201d Switch it to ON so it turns orange. Close the popup and perform any Google search. You will notice that the Top Stories carousel and any news-related widgets are no longer visible on the results page. Your regular search results appear without interruption."},
+            {type:"h2",text:"When to consider broader blocking"},
+            {type:"p",text:"If you find that news is a significant distraction throughout your day, hiding it from Google Search is a great first step, but you might also benefit from blocking news sites entirely during work hours. DistractionFree includes a News category in its site-blocking feature that covers hundreds of news domains. When enabled, any attempt to visit a news site shows a calming blocked page with an inspirational quote instead. You can also add specific news sites to a custom block list if the built-in list does not cover your particular time-sinks. Together, these features let you create a work environment where news is available on your terms, not as a constant ambient interruption."}
+          ],
+          related: ["block-social-media","add-custom-sites","hide-youtube-home-feed"]
+        },
+        {
+          slug: "hide-linkedin-feed",
+          emoji: "\ud83d\udcbc", title: "How to Hide the LinkedIn Feed", platform: "LinkedIn",
+          category: "social",
+          description: "Keep LinkedIn for networking without the endless feed.",
+          steps: [
+            "Click the DistractionFree icon in your browser toolbar to open the popup",
+            "Find the LinkedIn section in the list of supported platforms",
+            "Locate the \u201cFeed\u201d toggle and switch it to ON",
+            "Visit LinkedIn \u2014 the feed is hidden but messaging, search, and profiles still work"
+          ],
+          body: [
+            {type:"h2",text:"LinkedIn is professional, but the feed is still a feed"},
+            {type:"p",text:"LinkedIn occupies an unusual place in the distraction landscape. Unlike other social media platforms, LinkedIn is genuinely useful for professional networking, job searching, and industry research. Many people cannot simply block it entirely because they need it for work. But LinkedIn\u2019s feed has evolved over the years into something that closely resembles other social media feeds. It is filled with engagement-optimized posts, viral content, humble brags, and algorithmic recommendations designed to maximize time on site."},
+            {type:"p",text:"The feed is often the first thing you see when you open LinkedIn, and it can quickly consume fifteen or twenty minutes if you start scrolling. You might open LinkedIn to check a message or look at a job posting, but the feed catches your eye first. A post from a connection gets your attention, then you notice a trending topic, and before long you are reading comments on a debate about remote work policies. None of this advances your actual reason for visiting the platform."},
+            {type:"h2",text:"What hiding the LinkedIn feed does"},
+            {type:"p",text:"When you enable the Feed toggle for LinkedIn in DistractionFree, the main feed on the LinkedIn homepage is hidden. You will still see the navigation bar at the top of the page, including links to your messaging inbox, notifications, your profile, and the search bar. You can still visit any individual profile, company page, or job listing. You can still send and receive messages, accept connection requests, and use LinkedIn\u2019s search to find people and companies. The only thing that is removed is the scrolling feed of posts on the homepage."},
+            {type:"p",text:"This transforms LinkedIn from a social media platform into a professional utility. You use it the way you would use an address book or a job board: you go in with a specific purpose, accomplish that purpose, and leave. The behavioral shift is significant. Without a feed to scroll, most people spend a fraction of the time on LinkedIn that they did before, while still getting everything they need from the platform."},
+            {type:"h2",text:"Step-by-step setup"},
+            {type:"p",text:"Click the DistractionFree icon in your toolbar, then click on the LinkedIn section to see the available toggles. LinkedIn has five toggles that cover different parts of the interface, and the one you want for the main feed is labeled \u201cFeed.\u201d Switch it to ON. Close the popup and navigate to linkedin.com. The homepage will show the navigation bar and sidebar, but the central column where the post feed normally appears will be clean. You can start using LinkedIn\u2019s other features immediately."},
+            {type:"h2",text:"Going further with social media controls"},
+            {type:"p",text:"If LinkedIn is just one of several social platforms that distract you during work hours, DistractionFree offers similar feed-hiding toggles for Twitter/X, Instagram, Facebook, and Reddit. Each platform has its own set of fine-grained controls so you can keep the parts you need and remove the parts you do not. For an even more aggressive approach, you can block entire social media platforms during focus periods using the site-blocking feature. This gives you a layered system: hide feeds for platforms you use occasionally, and block entirely the ones you do not need at all."}
+          ],
+          related: ["remove-twitter-feed","hide-instagram-feed","block-social-media"]
+        },
+        {
+          slug: "remove-twitter-feed",
+          emoji: "\ud83d\udc26", title: "How to Remove the Twitter/X Feed", platform: "Twitter/X",
+          category: "social",
+          description: "Use Twitter for search and DMs without the timeline.",
+          steps: [
+            "Click the DistractionFree icon in your browser toolbar to open the popup",
+            "Find the Twitter/X section in the list of supported platforms",
+            "Locate the \u201cTimeline\u201d toggle and switch it to ON",
+            "Open Twitter \u2014 the timeline is gone, but search and DMs still work"
+          ],
+          body: [
+            {type:"h2",text:"The Twitter timeline is one of the most addictive feeds on the internet"},
+            {type:"p",text:"Twitter, now rebranded as X, was built around a real-time feed of short posts. This format is uniquely addictive because there is always something new. The feed refreshes constantly, and because tweets are short, you can consume dozens of them per minute. The platform\u2019s algorithm amplifies provocative and emotionally-charged content because that is what drives engagement. The result is a feed that is almost impossible to put down once you start scrolling, even when the content is making you stressed or angry."},
+            {type:"p",text:"Many professionals use Twitter for legitimate purposes. Developers follow framework and library announcements. Journalists monitor breaking news. Researchers share papers and discuss findings. Marketers track trends and engage with customers. The problem is that these useful activities are buried in a timeline that also contains outrage, arguments, memes, and algorithmically-promoted content that has nothing to do with your professional interests. Separating the signal from the noise requires constant willpower, and that willpower is a finite resource."},
+            {type:"h2",text:"What removing the timeline does"},
+            {type:"p",text:"When you enable the Timeline toggle for Twitter/X in DistractionFree, the main feed on the Twitter homepage is hidden. Both the \u201cFor You\u201d and \u201cFollowing\u201d tabs are removed. You can still access every other part of the platform. Search works normally, so you can look up specific accounts, hashtags, or topics. Direct messages are unaffected. You can visit individual profiles and read their tweets directly. Notifications remain accessible so you do not miss replies or mentions."},
+            {type:"p",text:"The effect is that Twitter becomes a tool you use deliberately rather than a feed you scroll passively. If you need to check what a specific person or organization has posted, you search for them or visit their profile directly. If someone has sent you a message, you check your DMs. But there is no longer a constantly-updating stream of content pulling you in the moment you open the site."},
+            {type:"h2",text:"Step-by-step setup"},
+            {type:"p",text:"Click the DistractionFree icon in your Chrome toolbar. Find the Twitter/X section and expand it. The section contains four toggles covering different parts of the Twitter interface. Switch the \u201cTimeline\u201d toggle to ON. Close the popup and navigate to twitter.com or x.com. The main content area will be clean, showing the sidebar navigation and any trending topics panel, but without the feed of tweets. You can immediately use the search bar or navigate to specific profiles."},
+            {type:"h2",text:"Complementary approaches"},
+            {type:"p",text:"Hiding the Twitter timeline is a strong first step, but if you find yourself still spending too much time on the platform, you have additional options. DistractionFree includes separate toggles for other parts of the Twitter interface. And if you need a complete break during focused work sessions, you can block Twitter entirely using the site-blocking feature. The blocked page will show an inspirational quote instead of the site, giving you a moment to reconsider whether you really need to check Twitter right now. You can also hide feeds on other social platforms like LinkedIn and Instagram, creating a consistent distraction-free experience across all your professional tools."}
+          ],
+          related: ["hide-linkedin-feed","hide-instagram-feed","block-social-media"]
+        },
+        {
+          slug: "hide-instagram-feed",
+          emoji: "\ud83d\udcf8", title: "How to Hide Instagram\u2019s Feed", platform: "Instagram",
+          category: "social",
+          description: "Check DMs and profiles without getting sucked into the feed.",
+          steps: [
+            "Click the DistractionFree icon in your browser toolbar to open the popup",
+            "Find the Instagram section in the list of supported platforms",
+            "Locate the \u201cFeed\u201d toggle and switch it to ON",
+            "Open Instagram \u2014 the feed is hidden, but DMs, search, and profiles still work"
+          ],
+          body: [
+            {type:"h2",text:"Instagram is built around infinite scroll"},
+            {type:"p",text:"Instagram\u2019s core experience is a never-ending feed of photos and videos. The platform has refined this experience over more than a decade, and the algorithm that powers it is extremely effective at surfacing content that keeps you scrolling. Reels, suggested posts, and stories create multiple layers of content consumption, each designed to hand you off to the next when one stream runs out. The result is that opening Instagram for a quick check can easily turn into a twenty-minute or even thirty-minute session."},
+            {type:"p",text:"For many people, Instagram is not purely a time-waster. They use it to communicate with friends and family through DMs, follow accounts related to their hobbies or profession, or manage a business or personal brand. The challenge is that all of these useful activities require you to open the same app that contains the addictive feed. Without intervention, it is extremely difficult to check a message without being pulled into the feed, Reels, or the Explore page."},
+            {type:"h2",text:"What hiding the feed does"},
+            {type:"p",text:"When you enable the Feed toggle for Instagram in DistractionFree, the main photo and video feed on the Instagram homepage is hidden. You can still access Direct Messages by navigating to the messages section. Search works normally, so you can find specific accounts, hashtags, and locations. Individual profiles remain fully accessible, allowing you to view someone\u2019s posts by visiting their page directly. Your own profile page is also unaffected, so you can manage your posts, followers, and settings."},
+            {type:"p",text:"The key distinction is between passive and active consumption. With the feed hidden, you can no longer passively consume content by scrolling. Every interaction requires an active decision: navigating to a specific profile, searching for a specific topic, or opening a specific conversation. This shift from passive to active use is the single most effective way to reduce time spent on Instagram while keeping the platform available for genuine communication and intentional browsing."},
+            {type:"h2",text:"Step-by-step setup"},
+            {type:"p",text:"Click the DistractionFree icon in your Chrome toolbar and find the Instagram section. Instagram has five toggles, each controlling a different part of the interface. The one labeled \u201cFeed\u201d hides the main homepage feed. Switch it to ON so it turns orange, then close the popup. Navigate to instagram.com and you will see the page without the scrolling feed of posts. The navigation bar at the top remains, giving you access to search, DMs, and your profile. Your settings persist until you change them."},
+            {type:"h2",text:"Building a distraction-free social media setup"},
+            {type:"p",text:"Instagram is rarely the only social platform that competes for your attention. If you also use Twitter, LinkedIn, or Facebook, consider hiding the feed on each of those platforms as well. DistractionFree provides similar granular controls for all of them. The experience of using social media fundamentally changes when you remove feeds: instead of opening each platform and getting sucked into a scroll, you open them, do what you came to do, and close them. For platforms you do not need for any professional or personal purpose, you can go further and block them entirely using the site-blocking feature."}
+          ],
+          related: ["hide-linkedin-feed","remove-twitter-feed","block-social-media"]
+        },
+        {
+          slug: "block-social-media",
+          emoji: "\ud83d\udd12", title: "How to Block Social Media Sites Entirely", platform: "General",
+          category: "general",
+          description: "Go nuclear \u2014 block entire categories of distracting sites.",
+          steps: [
+            "Click the DistractionFree icon in your browser toolbar to open the popup",
+            "Navigate to the \u201cBlock Sites\u201d tab at the top of the popup",
+            "Find the \u201cSocial Media\u201d category and toggle it to ON",
+            "Try visiting any social media site \u2014 you\u2019ll see a calming blocked page instead"
+          ],
+          body: [
+            {type:"h2",text:"Sometimes hiding the feed is not enough"},
+            {type:"p",text:"DistractionFree\u2019s per-platform toggles are great for people who need to use social media but want to reduce its addictive qualities. But there are times when you need a harder boundary. During a critical deadline, an exam preparation period, or a deep work block, you might want to make social media entirely inaccessible. Willpower alone is unreliable, especially when the sites you are trying to avoid have been specifically designed to override your self-control. That is where site blocking comes in."},
+            {type:"p",text:"Site blocking is fundamentally different from feed hiding. Instead of modifying how a platform looks and behaves, it prevents you from accessing the platform at all. When you try to visit a blocked site, you see a calming page with an inspirational quote and DistractionFree\u2019s mascot instead of the site\u2019s content. There is no way to accidentally scroll or browse. The site is simply not there until you decide to unblock it."},
+            {type:"h2",text:"How category blocking works"},
+            {type:"p",text:"DistractionFree organizes sites into five categories: Social Media, News, Entertainment, Gaming, and Shopping. Each category contains hundreds of pre-loaded domains. The Social Media category, for example, includes not just the major platforms like Facebook, Twitter, Instagram, and TikTok, but also smaller social networks, forum sites, and community platforms that can be just as distracting. When you toggle a category on, every domain in that category is blocked simultaneously."},
+            {type:"p",text:"You do not need to block all categories at once. You can be selective based on your personal distraction patterns. If social media is your primary time sink, toggle just that category. If you also lose time to news and entertainment, you can enable those categories too. Each category operates independently, so you can mix and match based on what you need on any given day. The total number of blocked domains across all categories exceeds five hundred, so the coverage is comprehensive."},
+            {type:"h2",text:"Step-by-step setup"},
+            {type:"p",text:"Click the DistractionFree icon in your toolbar. At the top of the popup, you will see tabs for different sections of the extension. Click on the \u201cBlock Sites\u201d tab. You will see a list of categories, each with a toggle. Find \u201cSocial Media\u201d and switch its toggle to ON. The toggle turns orange to confirm. Close the popup and try visiting any social media site. Instead of the site loading, you will see DistractionFree\u2019s blocked page with a calming background, an inspirational quote, and a \u201cGo Back\u201d button that returns you to your previous page."},
+            {type:"h2",text:"Unblocking and flexibility"},
+            {type:"p",text:"Blocking sites is not a permanent decision. You can unblock any category at any time by returning to the Block Sites tab and toggling the category off. This makes it easy to use blocking strategically: enable it during your work hours or study sessions, and disable it during breaks or after hours. Some people keep social media blocked during the entire workday and only unblock it in the evening. Others block it during specific focus sessions and unblock between tasks. DistractionFree is designed to support whatever rhythm works for you."},
+            {type:"p",text:"If the built-in categories do not cover a specific site that distracts you, you can also add individual URLs to a custom block list. This is useful for niche sites, specific subreddits accessed by URL, or any other domain that is a personal distraction for you but might not be included in the default categories."}
+          ],
+          related: ["add-custom-sites","hide-linkedin-feed","remove-twitter-feed"]
+        },
+        {
+          slug: "add-custom-sites",
+          emoji: "\ud83c\udfaf", title: "How to Add Custom Sites to Your Block List", platform: "General",
+          category: "general",
+          description: "Block any site that distracts you \u2014 not just the defaults.",
+          steps: [
+            "Click the DistractionFree icon in your browser toolbar to open the popup",
+            "Navigate to the \u201cBlock Sites\u201d tab at the top of the popup",
+            "Find the custom sites input field at the bottom of the panel",
+            "Type or paste the domain you want to block and press Enter \u2014 it is now blocked"
+          ],
+          body: [
+            {type:"h2",text:"Why a custom block list matters"},
+            {type:"p",text:"DistractionFree ships with over five hundred pre-loaded domains organized into categories like Social Media, News, Entertainment, Gaming, and Shopping. For most people, these categories cover the major sources of online distraction. But everyone\u2019s distraction profile is unique. You might have a niche forum that you compulsively check. A webcomic that you visit twenty times a day to see if there is a new strip. A deals aggregator where you lose thirty minutes browsing sales. A browser game that you keep open in a background tab. These personal distractions are real and significant, and they are not going to appear in any pre-built category list."},
+            {type:"p",text:"The custom block list solves this problem. It lets you add any domain to DistractionFree\u2019s blocking system, so that visiting that domain shows the same calming blocked page that you see when you visit a category-blocked site. Your custom domains are treated exactly the same as built-in ones: they are blocked instantly, they show the blocked page with an inspirational quote, and they stay blocked until you remove them."},
+            {type:"h2",text:"How to add sites to your custom list"},
+            {type:"p",text:"Click the DistractionFree icon in your toolbar and navigate to the \u201cBlock Sites\u201d tab. Below the category toggles, you will find an input field for custom sites. Type or paste the domain you want to block. You can enter it with or without the www prefix \u2014 DistractionFree will handle both variations. Press Enter or click the add button, and the domain is immediately added to your block list. You can add as many custom domains as you need. Each one appears in a list below the input field, and you can remove any individual domain by clicking the remove button next to it."},
+            {type:"p",text:"The custom block list works independently of the category toggles. This means your custom domains remain blocked even if you turn off all category blocking. This is useful if you want fine-grained control: you might not need to block all social media, but you might want to permanently block that one specific site that always derails your afternoon."},
+            {type:"h2",text:"Tips for building an effective block list"},
+            {type:"p",text:"Start by tracking your distractions for a day or two before adding sites to your block list. Pay attention to which sites you visit out of habit rather than intention. These are your targets. Common candidates include specific subreddits or forum threads that you check compulsively, hobby-related sites that you browse during work, streaming sites that tempt you during the day, and shopping sites where you lose time comparing products you do not plan to buy."},
+            {type:"p",text:"You do not need to add every possible distraction on day one. Start with the two or three sites that consume the most time, and add more as you notice new patterns. The goal is not to block the entire internet but to create small points of friction that interrupt your autopilot navigation to time-wasting sites. That moment of seeing the blocked page is often all it takes to redirect your attention back to your work."},
+            {type:"h2",text:"Combining custom blocks with category blocking"},
+            {type:"p",text:"The most effective setup for most people is a combination of category blocking and custom sites. Use the built-in categories for broad coverage of known distraction domains, and use the custom list for your personal weak spots that the categories do not cover. For example, you might enable the Social Media and Entertainment categories for broad protection, then add a few specific forums, games, or niche sites to your custom list. This layered approach gives you comprehensive coverage without requiring you to think of every possible distraction up front."}
+          ],
+          related: ["block-social-media","block-google-news","hide-youtube-shorts"]
+        }
+      ];
+
+      // Build slug lookup
+      var slugMap = {};
+      guides.forEach(function (g, i) { slugMap[g.slug] = i; });
+
+      // ===== Mock illustrations =====
+      var D = '<span class="gm-dot"></span>';
+      var DOTS = D+D+D;
+
+      function popupMock(tabs, activeTab, toggles, caption) {
+        var h = '<div class="gm"><div class="gm-hdr">'+DOTS+'</div><div class="gm-bd"><div class="gm-tabs">';
+        tabs.forEach(function(t){
+          h += '<span class="gm-tab'+(t===activeTab?' on':'')+'">'+t+'</span>';
+        });
+        h += '</div><div class="gm-tgl">';
+        toggles.forEach(function(t){
+          h += '<div class="gm-r'+(t[2]?' hl':'')+'"><span class="gm-rl">'+t[0]+'</span><span class="gm-sw'+(t[1]?'':' off')+'"></span></div>';
+        });
+        h += '</div></div></div>';
+        if (caption) h += '<div class="gm-cap">'+caption+'</div>';
+        return h;
+      }
+
+      function compareMock(before, after, caption) {
+        return '<div class="gm-cmp"><div class="gm-cmp-b"><div class="gm-cmp-lbl">Before</div><div class="gm-f">'+before+'</div></div><div class="gm-cmp-a"><div class="gm-cmp-lbl">After</div><div class="gm-f">'+after+'</div></div></div>'+(caption?'<div class="gm-cap">'+caption+'</div>':'');
+      }
+
+      // Shared HTML fragments
+      var SB = '<div class="gm-sb"></div>';
+      var B = function(c){return '<div class="gm-bk gm-bk-s'+(c?' '+c:'')+'"></div>';};
+      var BM = function(c){return '<div class="gm-bk gm-bk-m'+(c?' '+c:'')+'"></div>';};
+      var BL = function(c){return '<div class="gm-bk gm-bk-l'+(c?' '+c:'')+'"></div>';};
+      var LN = function(w){return '<div class="gm-ln'+(w?' '+w:'')+'"></div>';};
+      var G2 = function(a,b){return '<div class="gm-g2">'+a+b+'</div>';};
+      var TT = function(t){return '<div class="gm-tt">'+t+'</div>';};
+
+      var YT_TABS = ["LinkedIn","YouTube","Reddit","Google"];
+
+      var mocks = {
+        "hide-youtube-shorts": {
+          popup: popupMock(YT_TABS,"YouTube",[["Home Feed",false,false],["Shorts",true,true],["Comments",false,false],["Related Videos",false,false],["Notifications",false,false]],"The DistractionFree popup with Shorts toggled on"),
+          compare: compareMock(
+            SB+G2(B(),B())+BM("dn")+TT("\u25b6 Shorts shelf")+G2(B(),B()),
+            SB+G2(B(),B())+G2(B(),B())+G2(B(),B())+TT("Clean feed"),
+            "YouTube homepage with and without the Shorts shelf"
+          )
+        },
+        "hide-youtube-comments": {
+          popup: popupMock(YT_TABS,"YouTube",[["Home Feed",false,false],["Shorts",false,false],["Comments",true,true],["Related Videos",false,false],["Notifications",false,false]],"The DistractionFree popup with Comments toggled on"),
+          compare: compareMock(
+            BL()+LN("w80")+LN("w60")+BM("dn")+TT("Comment section")+B("dn"),
+            BL()+LN("w80")+LN("w60")+TT("Page ends cleanly"),
+            "A video page with and without the comment section"
+          )
+        },
+        "hide-youtube-home-feed": {
+          popup: popupMock(YT_TABS,"YouTube",[["Home Feed",true,true],["Shorts",false,false],["Comments",false,false],["Related Videos",false,false],["Notifications",false,false]],"The DistractionFree popup with Home Feed toggled on"),
+          compare: compareMock(
+            SB+G2(B(),B())+G2(B(),B())+G2(B(),B())+TT("Algorithmic recommendations"),
+            SB+'<div style="height:90px;display:flex;align-items:center;justify-content:center">'+TT("Search for what you need")+'</div>',
+            "YouTube homepage with and without the recommended feed"
+          )
+        },
+        "hide-youtube-related-videos": {
+          popup: popupMock(YT_TABS,"YouTube",[["Home Feed",false,false],["Shorts",false,false],["Comments",false,false],["Related Videos",true,true],["Notifications",false,false]],"The DistractionFree popup with Related Videos toggled on"),
+          compare: compareMock(
+            '<div class="gm-fx">'+
+              '<div class="gm-fx-m">'+BL()+LN("w80")+LN("w40")+'</div>'+
+              '<div class="gm-fx-s">'+B("dn")+B("dn")+B("dn")+TT("Suggestions")+'</div>'+
+            '</div>',
+            '<div class="gm-fx">'+
+              '<div class="gm-fx-m">'+BL()+LN("w80")+LN("w40")+'</div>'+
+              '<div class="gm-fx-s" style="opacity:0.15">'+B()+B()+B()+'</div>'+
+            '</div>'+TT("Sidebar cleared"),
+            "A video page with and without the related videos sidebar"
+          )
+        },
+        "block-google-news": {
+          popup: popupMock(["YouTube","Google","LinkedIn","Reddit"],"Google",[["News & Top Stories",true,true],["AI Overviews",false,false]],"The DistractionFree popup with News toggled on"),
+          compare: compareMock(
+            SB+LN("w80")+LN("w60")+BM("dn")+TT("Top Stories carousel")+LN("w80")+LN("w60"),
+            SB+LN("w80")+LN("w60")+LN("w80")+LN("w60")+LN("w80")+LN("w40")+TT("Just search results"),
+            "Google results with and without the news module"
+          )
+        },
+        "hide-linkedin-feed": {
+          popup: popupMock(["YouTube","LinkedIn","Twitter/X","Instagram"],"LinkedIn",[["Feed",true,true],["News Panel",false,false],["Notifications Badge",false,false],["People You May Know",false,false]],"The DistractionFree popup with LinkedIn Feed toggled on"),
+          compare: compareMock(
+            LN("w40")+BM("dn")+BM("dn")+B("dn")+TT("Scrolling feed posts"),
+            LN("w40")+'<div style="height:80px;display:flex;align-items:center;justify-content:center">'+TT("Use search, messaging & profiles")+'</div>',
+            "LinkedIn homepage with and without the feed"
+          )
+        },
+        "remove-twitter-feed": {
+          popup: popupMock(["YouTube","LinkedIn","Twitter/X","Instagram"],"Twitter/X",[["Timeline",true,true],["Trending",false,false],["Who to Follow",false,false]],"The DistractionFree popup with Timeline toggled on"),
+          compare: compareMock(
+            '<div class="gm-fx"><div style="width:25%">'+B()+B()+B()+'</div><div class="gm-fx-m">'+BM("dn")+B("dn")+BM("dn")+TT("Timeline tweets")+'</div></div>',
+            '<div class="gm-fx"><div style="width:25%">'+B()+B()+B()+'</div><div class="gm-fx-m" style="display:flex;align-items:center;justify-content:center;min-height:90px">'+TT("Search & DMs still work")+'</div></div>',
+            "Twitter/X with and without the timeline"
+          )
+        },
+        "hide-instagram-feed": {
+          popup: popupMock(["YouTube","LinkedIn","Twitter/X","Instagram"],"Instagram",[["Feed",true,true],["Stories",false,false],["Reels",false,false],["Explore",false,false]],"The DistractionFree popup with Instagram Feed toggled on"),
+          compare: compareMock(
+            LN("w40")+'<div class="gm-g3">'+B()+B()+B()+'</div><div class="gm-g3">'+B()+B()+B()+'</div>'+TT("Photo feed"),
+            LN("w40")+'<div style="height:72px;display:flex;align-items:center;justify-content:center">'+TT("DMs, search & profiles available")+'</div>',
+            "Instagram with and without the photo feed"
+          )
+        },
+        "block-social-media": {
+          popup: '<div class="gm"><div class="gm-hdr">'+DOTS+'</div><div class="gm-bd"><div class="gm-tabs"><span class="gm-tab">Platforms</span><span class="gm-tab on">Block Sites</span></div><div class="gm-tgl"><div class="gm-r hl"><span class="gm-rl">Social Media</span><span class="gm-sw"></span></div><div class="gm-r"><span class="gm-rl">News</span><span class="gm-sw off"></span></div><div class="gm-r"><span class="gm-rl">Entertainment</span><span class="gm-sw off"></span></div><div class="gm-r"><span class="gm-rl">Gaming</span><span class="gm-sw off"></span></div><div class="gm-r"><span class="gm-rl">Shopping</span><span class="gm-sw off"></span></div></div></div></div><div class="gm-cap">The Block Sites tab with Social Media enabled</div>',
+          compare: compareMock(
+            B()+LN("w80")+BM()+BM()+TT("Social media site loading\u2026"),
+            '<div class="gm-bl"><div class="gm-bl-e">\ud83c\udf4a</div><div class="gm-bl-t">This site is blocked</div><div class="gm-bl-q">\u201cAlmost everything will work again if you unplug it for a few minutes.\u201d</div><div class="gm-bl-b">Go Back</div></div>',
+            "What you see when visiting a blocked social media site"
+          )
+        },
+        "add-custom-sites": {
+          popup: '<div class="gm"><div class="gm-hdr">'+DOTS+'</div><div class="gm-bd"><div class="gm-tabs"><span class="gm-tab">Platforms</span><span class="gm-tab on">Block Sites</span></div><div class="gm-tgl"><div class="gm-inp"><span class="gm-inp-f">example.com</span><span class="gm-inp-b">+</span></div><div class="gm-url"><span>reddit.com</span><span class="gm-url-x">\u00d7</span></div><div class="gm-url"><span>tiktok.com</span><span class="gm-url-x">\u00d7</span></div><div class="gm-url"><span>news.ycombinator.com</span><span class="gm-url-x">\u00d7</span></div></div></div></div><div class="gm-cap">The custom URL input with your blocked domains</div>',
+          compare: compareMock(
+            B()+LN("w80")+BM()+TT("Your distracting site\u2026"),
+            '<div class="gm-bl"><div class="gm-bl-e">\ud83c\udf4a</div><div class="gm-bl-t">This site is blocked</div><div class="gm-bl-q">\u201cThe secret of getting ahead is getting started.\u201d</div><div class="gm-bl-b">Go Back</div></div>',
+            "Custom-blocked sites show the same calming page"
+          )
+        }
+      };
+
+      // Check if we're on a guide page
+      var params = new URLSearchParams(window.location.search);
+      var guideSlug = params.get("guide");
+
+      if (guideSlug && slugMap[guideSlug] !== undefined) {
+        showGuide(slugMap[guideSlug]);
+      } else {
+        showGrid();
+      }
+
+      function showGrid() {
+        document.getElementById("grid-view").style.display = "block";
+        document.getElementById("guide-page").classList.remove("visible");
+
+        // Render filters
+        var filtersEl = document.getElementById("filters");
+        var categories = [
+          { key: "all", label: "All" },
+          { key: "youtube", label: "YouTube" },
+          { key: "google", label: "Google" },
+          { key: "social", label: "Social Media" },
+          { key: "general", label: "General" }
+        ];
+        categories.forEach(function (cat) {
+          var btn = document.createElement("button");
+          btn.className = "filter-pill" + (cat.key === "all" ? " active" : "");
+          btn.setAttribute("data-filter", cat.key);
+          btn.textContent = cat.label;
+          btn.addEventListener("click", function () {
+            filtersEl.querySelectorAll(".filter-pill").forEach(function (b) { b.classList.remove("active"); });
+            btn.classList.add("active");
+            filterBooks(cat.key);
+          });
+          filtersEl.appendChild(btn);
+        });
+
+        // Render books in shelf rows (5 per row)
+        var shelfEl = document.getElementById("shelf");
+        var row;
+        guides.forEach(function (g, i) {
+          if (i % 3 === 0) {
+            row = document.createElement("div");
+            row.className = "shelf-row";
+            shelfEl.appendChild(row);
+          }
+          var a = document.createElement("a");
+          a.className = "book";
+          a.href = "bookshelf.html?guide=" + g.slug;
+          a.setAttribute("data-category", g.category);
+          a.innerHTML =
+            '<div class="book-cover">' + g.emoji + '</div>' +
+            '<div class="book-info">' +
+              '<span class="book-title">' + g.title + '</span>' +
+              '<span class="book-badge">' + g.platform + '</span>' +
+            '</div>';
+          row.appendChild(a);
+        });
+      }
+
+      function filterBooks(cat) {
+        var books = document.querySelectorAll(".book");
+        var shelfEl = document.getElementById("shelf");
+        books.forEach(function (b) {
+          if (cat === "all" || b.getAttribute("data-category") === cat) {
+            b.classList.remove("hidden");
+          } else {
+            b.classList.add("hidden");
+          }
+        });
+        // Reflow into rows
+        var visible = [];
+        books.forEach(function (b) {
+          if (!b.classList.contains("hidden")) visible.push(b);
+        });
+        shelfEl.innerHTML = "";
+        var row;
+        visible.forEach(function (b, i) {
+          if (i % 3 === 0) {
+            row = document.createElement("div");
+            row.className = "shelf-row";
+            shelfEl.appendChild(row);
+          }
+          row.appendChild(b);
+        });
+      }
+
+      function showGuide(index) {
+        var g = guides[index];
+        document.getElementById("grid-view").style.display = "none";
+        var page = document.getElementById("guide-page");
+        page.classList.add("visible");
+
+        document.title = g.title + " \u2014 DistractionFree";
+
+        document.getElementById("guide-emoji").textContent = g.emoji;
+
+        document.getElementById("guide-title").textContent = g.title;
+
+        var badge = document.getElementById("guide-badge");
+        badge.setAttribute("data-category", g.category);
+        badge.textContent = g.platform;
+
+        document.getElementById("guide-desc").textContent = g.description;
+
+        var stepsList = document.getElementById("guide-steps");
+        stepsList.innerHTML = "";
+        g.steps.forEach(function (s) {
+          var li = document.createElement("li");
+          li.textContent = s;
+          stepsList.appendChild(li);
+        });
+
+        // Render mocks
+        var m = mocks[g.slug];
+        var compareEl = document.getElementById("guide-mock-compare");
+        var popupEl = document.getElementById("guide-mock-popup");
+        compareEl.innerHTML = m && m.compare ? m.compare : "";
+        popupEl.innerHTML = m && m.popup ? m.popup : "";
+
+        // Render body
+        var bodyEl = document.getElementById("guide-body");
+        bodyEl.innerHTML = "";
+        if (g.body) {
+          g.body.forEach(function (block) {
+            var el = document.createElement(block.type === "h2" ? "h2" : "p");
+            el.textContent = block.text;
+            bodyEl.appendChild(el);
+          });
+        }
+
+        // Render related guides
+        var relatedGrid = document.getElementById("guide-related-grid");
+        relatedGrid.innerHTML = "";
+        if (g.related) {
+          g.related.forEach(function (slug) {
+            var ri = slugMap[slug];
+            if (ri === undefined) return;
+            var rg = guides[ri];
+            var a = document.createElement("a");
+            a.className = "guide-related-card";
+            a.href = "bookshelf.html?guide=" + rg.slug;
+            a.innerHTML =
+              '<span class="guide-related-emoji">' + rg.emoji + '</span>' +
+              '<span class="guide-related-title">' + rg.title + '</span>';
+            relatedGrid.appendChild(a);
+          });
+        }
+
+        window.scrollTo(0, 0);
+      }
+    })();
+  </script>
+</body>
+</html>

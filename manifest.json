@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "DistractionFree",
+  "version": "1.0.0",
+  "description": "Block distracting feeds on LinkedIn and replace them with motivational quotes.",
+  "permissions": ["storage"],
+  "host_permissions": ["*://*.linkedin.com/*"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "web_accessible_resources": [{
+    "resources": ["data/quotes.js"],
+    "matches": ["*://*.linkedin.com/*"]
+  }],
+  "content_scripts": [
+    {
+      "matches": ["*://*.linkedin.com/*"],
+      "css": ["content/linkedin.css"],
+      "js": ["data/quotes.js", "content/shared.js", "content/linkedin.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

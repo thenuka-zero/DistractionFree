@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Blocked — DistractionFree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="blocked.css">
+</head>
+<body>
+  <div class="blocked-container">
+    <!-- Meditating monk -->
+    <div class="monk">
+      <svg width="120" height="120" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="32" r="24" fill="#E8DFCF" opacity="0.5"/>
+        <ellipse cx="40" cy="68" rx="18" ry="6" fill="#B5694D"/>
+        <ellipse cx="40" cy="66" rx="18" ry="6" fill="#D4956A"/>
+        <ellipse cx="40" cy="55" rx="15" ry="13" fill="#E8A84C"/>
+        <path d="M33 49 L40 57 L47 49" stroke="#C8882C" stroke-width="1.2" fill="none" opacity="0.5"/>
+        <circle cx="40" cy="28" r="16" fill="#FDDCB5"/>
+        <path d="M33 27 Q36.5 23 40 27" stroke="#5C4033" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M40 27 Q43.5 23 47 27" stroke="#5C4033" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <ellipse cx="29" cy="31" rx="4" ry="2.5" fill="#F0A0A0" opacity="0.4"/>
+        <ellipse cx="51" cy="31" rx="4" ry="2.5" fill="#F0A0A0" opacity="0.4"/>
+        <path d="M36 34 Q40 37.5 44 34" stroke="#5C4033" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <ellipse cx="40" cy="50" rx="3.5" ry="5" fill="#FDDCB5"/>
+        <ellipse cx="24" cy="65" rx="3" ry="1.8" fill="#F0C4C8" opacity="0.5" transform="rotate(-15 24 65)"/>
+        <ellipse cx="22" cy="64" rx="3" ry="1.8" fill="#F0C4C8" opacity="0.4" transform="rotate(-40 22 64)"/>
+        <ellipse cx="56" cy="65" rx="3" ry="1.8" fill="#F0C4C8" opacity="0.5" transform="rotate(15 56 65)"/>
+        <ellipse cx="58" cy="64" rx="3" ry="1.8" fill="#F0C4C8" opacity="0.4" transform="rotate(40 58 64)"/>
+      </svg>
+    </div>
+
+    <h1 class="blocked-title">This site is blocked</h1>
+    <p class="blocked-domain" id="blocked-domain"></p>
+
+    <!-- Quote card -->
+    <div class="quote-card">
+      <p class="quote-text" id="quote-text"></p>
+      <p class="quote-author" id="quote-author"></p>
+    </div>
+
+    <button class="go-back-btn" id="go-back-btn">Go Back</button>
+    <p class="branding">DistractionFree</p>
+  </div>
+
+  <script src="../data/quotes.js"></script>
+  <script src="blocked.js"></script>
+</body>
+</html>
