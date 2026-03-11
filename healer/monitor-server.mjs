@@ -283,13 +283,13 @@ const server = http.createServer(async (req, res) => {
 });
 
 // ---------------------------------------------------------------------------
-// Cron: auto-check every 5 minutes
+// Cron: auto-check every 5 minutes (disabled)
 // ---------------------------------------------------------------------------
 
-cron.schedule('*/5 * * * *', () => {
-  log('Cron: scheduled check triggered');
-  runCheck().catch(err => log(`Cron run error: ${err.message}`));
-});
+// cron.schedule('*/5 * * * *', () => {
+//   log('Cron: scheduled check triggered');
+//   runCheck().catch(err => log(`Cron run error: ${err.message}`));
+// });
 
 // ---------------------------------------------------------------------------
 // Start
