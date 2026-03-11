@@ -4,7 +4,28 @@
  */
 (function () {
   const DEFAULT_SETTINGS = {
-    linkedin: { feedEnabled: true }
+    linkedin: {
+      feedEnabled:            true,
+      hidePYMK:               true,
+      hideNewsSidebar:        true,
+      hideStartPost:          false,
+      hideMyPages:            false,
+      hideFollowPages:        false,
+      hideStatsDashboard:     true,
+      hideJobRecommendations: false,
+      hideLearningRecs:       false,
+      hideGroupsWidget:       false,
+      hidePremiumUpsell:      true,
+      hideProfileViewTeaser:  true,
+      hideSearchAppearances:  true,
+      hideAIUpsell:           true,
+      hideNotificationBadge:  true,
+      hideMessagingBadge:     false,
+      hideOTWBanners:         false,
+      hidePeopleAlsoViewed:   true,
+      hideCelebrations:       false,
+      hideConnectionCounts:   false,
+    }
   };
 
   let settings = {};
@@ -19,14 +40,15 @@
   function updateTogglesFromSettings() {
     document.querySelectorAll(".toggle-row").forEach((row) => {
       const site = row.dataset.site;
-      const key = row.dataset.key;
+      const key  = row.dataset.key;
       if (!site || !key) return;
 
       const checkbox = row.querySelector("input[type='checkbox']");
       if (!checkbox) return;
 
       const siteSettings = settings[site] || {};
-      checkbox.checked = siteSettings[key] !== undefined ? siteSettings[key] : true;
+      const htmlDefault  = checkbox.defaultChecked;
+      checkbox.checked = siteSettings[key] !== undefined ? siteSettings[key] : htmlDefault;
     });
   }
 
@@ -39,7 +61,7 @@
   function bindToggles() {
     document.querySelectorAll(".toggle-row").forEach((row) => {
       const site = row.dataset.site;
-      const key = row.dataset.key;
+      const key  = row.dataset.key;
       if (!site || !key) return;
 
       const checkbox = row.querySelector("input[type='checkbox']");

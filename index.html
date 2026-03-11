@@ -509,6 +509,29 @@
 
     .footer-links a:hover { opacity: 0.6; }
 
+    /* ===== Platform status badges ===== */
+    .badge-live {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: #D1FAE5;
+      color: #065F46;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    .badge-soon {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: #F3F4F6;
+      color: #9CA3AF;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
     /* ===== Responsive ===== */
     @media (max-width: 768px) {
       .feature-split, .feature-split.reverse {
@@ -635,7 +658,7 @@
     <div class="hero-cta">
       <a href="#" class="btn">Add to Chrome &mdash; It's Free</a>
     </div>
-    <p class="hero-trust">&#10024; 33 toggles &middot; 7 platforms &middot; 500+ blocked domains</p>
+    <p class="hero-trust">&#10024; LinkedIn live now &middot; Reddit, YouTube &amp; more coming soon &middot; 500+ blocked domains</p>
   </section>
 
   <section class="feature-section feature-section-alt">
@@ -647,40 +670,40 @@
           <div class="site-control-card">
             <span class="site-dot" style="background:#0A66C2"></span>
             <span class="site-control-name">LinkedIn</span>
-            <span class="site-control-count">5 toggles</span>
+            <span class="badge-live">Live</span>
           </div>
           <div class="site-control-card">
             <span class="site-dot" style="background:#FF4500"></span>
             <span class="site-control-name">Reddit</span>
-            <span class="site-control-count">5 toggles</span>
+            <span class="badge-soon">Soon</span>
           </div>
           <div class="site-control-card">
             <span class="site-dot" style="background:#FF0000"></span>
             <span class="site-control-name">YouTube</span>
-            <span class="site-control-count">7 toggles</span>
+            <span class="badge-soon">Soon</span>
           </div>
           <div class="site-control-card">
             <span class="site-dot" style="background:#1877F2"></span>
             <span class="site-control-name">Facebook</span>
-            <span class="site-control-count">5 toggles</span>
+            <span class="badge-soon">Soon</span>
           </div>
           <div class="site-control-card">
             <span class="site-dot" style="background:#E4405F"></span>
             <span class="site-control-name">Instagram</span>
-            <span class="site-control-count">5 toggles</span>
+            <span class="badge-soon">Soon</span>
           </div>
           <div class="site-control-card">
             <span class="site-dot" style="background:#1DA1F2"></span>
             <span class="site-control-name">Twitter / X</span>
-            <span class="site-control-count">4 toggles</span>
+            <span class="badge-soon">Soon</span>
           </div>
           <div class="site-control-card">
             <span class="site-dot" style="background:#4285F4"></span>
             <span class="site-control-name">Google</span>
-            <span class="site-control-count">2 toggles</span>
+            <span class="badge-soon">Soon</span>
           </div>
         </div>
-        <p class="feature-sub-detail">33 toggles across 7 platforms</p>
+        <p class="feature-sub-detail">LinkedIn support live now &middot; More platforms in progress</p>
       </div>
       <div class="feature-visual">
         <div class="mock-card">
@@ -691,19 +714,17 @@
           </div>
           <div class="mock-card-body">
             <div class="mock-site-tabs">
-              <span class="mock-site-tab">LinkedIn</span>
-              <span class="mock-site-tab active">YouTube</span>
+              <span class="mock-site-tab active">LinkedIn</span>
+              <span class="mock-site-tab">YouTube</span>
               <span class="mock-site-tab">Reddit</span>
-              <span class="mock-site-tab">Google</span>
             </div>
             <div class="mock-toggle-list">
-              <div class="mock-toggle-row"><span class="mock-toggle-label">Home Feed</span><span class="mock-toggle-switch"></span></div>
-              <div class="mock-toggle-row"><span class="mock-toggle-label">Shorts</span><span class="mock-toggle-switch"></span></div>
-              <div class="mock-toggle-row"><span class="mock-toggle-label">Comments</span><span class="mock-toggle-switch"></span></div>
-              <div class="mock-toggle-row"><span class="mock-toggle-label">Related Videos</span><span class="mock-toggle-switch off"></span></div>
-              <div class="mock-toggle-row"><span class="mock-toggle-label">End Screen Cards</span><span class="mock-toggle-switch off"></span></div>
-              <div class="mock-toggle-row"><span class="mock-toggle-label">Notifications</span><span class="mock-toggle-switch"></span></div>
-              <div class="mock-toggle-row"><span class="mock-toggle-label">Trending</span><span class="mock-toggle-switch"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Hide Feed</span><span class="mock-toggle-switch"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Hide Top Stories</span><span class="mock-toggle-switch"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Hide Stats Dashboard</span><span class="mock-toggle-switch"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Hide Start a Post</span><span class="mock-toggle-switch off"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Hide My Pages</span><span class="mock-toggle-switch off"></span></div>
+              <div class="mock-toggle-row"><span class="mock-toggle-label">Hide Follow Suggestions</span><span class="mock-toggle-switch off"></span></div>
             </div>
           </div>
         </div>
@@ -792,6 +813,7 @@
     <div class="footer-links">
       <a href="#">Chrome Web Store</a>
       <a href="#">GitHub</a>
+      <a href="http://localhost:4242" target="_blank" rel="noopener">Toggle Monitor</a>
     </div>
   </footer>
 

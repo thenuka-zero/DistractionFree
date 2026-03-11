@@ -1,17 +1,227 @@
 /* DistractionFree — LinkedIn feed hiding (active by default) */
 
-.feed-shared-update-v2,
-div[data-id^="urn:li:activity:"],
-.feed-sort-toggle,
-.feed-follows-module {
+/* Hide per-post wrappers (display:contents divs) — covers post card + comment list siblings */
+[data-testid='mainFeed'] > [data-view-name=""],
+[data-view-name='feed-full-update'],
+[data-view-name='feed-nav-feed-sort-toggle'],
+[data-view-name='feed-new-update-pill'],
+[data-view-name='main-feed-pagination-loading-spinner'] {
   display: none !important;
 }
 
+/* Prevent infinite-scroll from loading more posts (clip the scroll height) */
+[data-testid='mainFeed'] {
+  overflow: hidden !important;
+}
+
 /* Un-hide when disabled */
-html.df-linkedin-disabled .feed-shared-update-v2,
-html.df-linkedin-disabled div[data-id^="urn:li:activity:"],
-html.df-linkedin-disabled .feed-sort-toggle,
-html.df-linkedin-disabled .feed-follows-module {
+html.df-linkedin-disabled [data-testid='mainFeed'] > [data-view-name=""],
+html.df-linkedin-disabled [data-view-name='feed-full-update'],
+html.df-linkedin-disabled [data-view-name='feed-nav-feed-sort-toggle'],
+html.df-linkedin-disabled [data-view-name='feed-new-update-pill'],
+html.df-linkedin-disabled [data-view-name='main-feed-pagination-loading-spinner'] {
+  display: revert !important;
+}
+
+html.df-linkedin-disabled [data-testid='mainFeed'] {
+  overflow: revert !important;
+}
+
+/* === B1: Hide PYMK (JS-tagged) === */
+
+[data-df-hide-pymk="true"] {
+  display: none !important;
+}
+
+html.df-linkedin-hide-pymk-disabled [data-df-hide-pymk="true"] {
+  display: revert !important;
+}
+
+/* === B2: Hide LinkedIn News Sidebar (JS-tagged) === */
+
+[data-df-hide-news-sidebar="true"] {
+  display: none !important;
+}
+
+html.df-linkedin-hide-news-sidebar-disabled [data-df-hide-news-sidebar="true"] {
+  display: revert !important;
+}
+
+/* === B3: Hide Job Recommendations (JS-tagged + legacy selectors) === */
+
+[data-df-hide-job-recs="true"],
+#jobsForYou,
+.jymbii-update {
+  display: none !important;
+}
+
+html.df-linkedin-hide-job-recs-disabled [data-df-hide-job-recs="true"],
+html.df-linkedin-hide-job-recs-disabled #jobsForYou,
+html.df-linkedin-hide-job-recs-disabled .jymbii-update {
+  display: revert !important;
+}
+
+/* === B4: Hide Learning Recommendations (JS-tagged + legacy selectors) === */
+
+[data-df-hide-learning-recs="true"],
+#course-recommendations,
+.lyndaCourse-singleton {
+  display: none !important;
+}
+
+html.df-linkedin-hide-learning-recs-disabled [data-df-hide-learning-recs="true"],
+html.df-linkedin-hide-learning-recs-disabled #course-recommendations,
+html.df-linkedin-hide-learning-recs-disabled .lyndaCourse-singleton {
+  display: revert !important;
+}
+
+/* === B5: Hide Groups & Hashtag Widgets (JS-tagged + legacy selectors) === */
+
+[data-df-hide-groups="true"],
+#groupsForYou,
+#companiesForYou,
+#recent-activities-widget {
+  display: none !important;
+}
+
+html.df-linkedin-hide-groups-widget-disabled [data-df-hide-groups="true"],
+html.df-linkedin-hide-groups-widget-disabled #groupsForYou,
+html.df-linkedin-hide-groups-widget-disabled #companiesForYou,
+html.df-linkedin-hide-groups-widget-disabled #recent-activities-widget {
+  display: revert !important;
+}
+
+/* === C1: Hide Premium Upsell Banners === */
+
+[data-view-name='home-nav-left-rail-growth-widgets-my-premium'],
+[data-view-name='home-nav-left-rail-page-premium-upsell-cta'],
+.nav-item__try-premium,
+.premium-upsell-link,
+.upsell,
+[data-df-hide-premium="true"] {
+  display: none !important;
+}
+
+html.df-linkedin-hide-premium-upsell-disabled [data-view-name='home-nav-left-rail-growth-widgets-my-premium'],
+html.df-linkedin-hide-premium-upsell-disabled [data-view-name='home-nav-left-rail-page-premium-upsell-cta'],
+html.df-linkedin-hide-premium-upsell-disabled .nav-item__try-premium,
+html.df-linkedin-hide-premium-upsell-disabled .premium-upsell-link,
+html.df-linkedin-hide-premium-upsell-disabled .upsell,
+html.df-linkedin-hide-premium-upsell-disabled [data-df-hide-premium="true"] {
+  display: revert !important;
+}
+
+/* === C2: Hide Profile View Teaser === */
+
+[data-view-name='home-nav-left-rail-growth-widgets-profile-views'],
+.profile-rail-card__member-nav-item:has(a[href*="profile-views"]),
+[data-df-hide-profile-views="true"] {
+  display: none !important;
+}
+
+html.df-linkedin-hide-profile-views-disabled [data-view-name='home-nav-left-rail-growth-widgets-profile-views'],
+html.df-linkedin-hide-profile-views-disabled .profile-rail-card__member-nav-item:has(a[href*="profile-views"]),
+html.df-linkedin-hide-profile-views-disabled [data-df-hide-profile-views="true"] {
+  display: revert !important;
+}
+
+/* === C3: Hide Search Appearance Count === */
+
+.profile-rail-card__member-nav-item:has(a[href*="search-appearances"]),
+a[href*="search-appearances"],
+[data-df-hide-search-appearances="true"] {
+  display: none !important;
+}
+
+html.df-linkedin-hide-search-appearances-disabled .profile-rail-card__member-nav-item:has(a[href*="search-appearances"]),
+html.df-linkedin-hide-search-appearances-disabled a[href*="search-appearances"],
+html.df-linkedin-hide-search-appearances-disabled [data-df-hide-search-appearances="true"] {
+  display: revert !important;
+}
+
+/* === C4: Hide AI Feature Upsells (JS-tagged) === */
+
+[data-df-hide-ai-upsell="true"] {
+  display: none !important;
+}
+
+html.df-linkedin-hide-ai-upsell-disabled [data-df-hide-ai-upsell="true"] {
+  display: revert !important;
+}
+
+/* === D1: Hide Notification Badge === */
+
+.notification-badge,
+.artdeco-notification-badge {
+  display: none !important;
+}
+
+html.df-linkedin-hide-notif-badge-disabled .notification-badge,
+html.df-linkedin-hide-notif-badge-disabled .artdeco-notification-badge {
+  display: revert !important;
+}
+
+/* === D2: Hide Messaging Badge === */
+
+.msg-overlay-bubble-header__badge,
+.msg-conversations-container__badge-count,
+.presence-entity__indicator {
+  display: none !important;
+}
+
+html.df-linkedin-hide-msg-badge-disabled .msg-overlay-bubble-header__badge,
+html.df-linkedin-hide-msg-badge-disabled .msg-conversations-container__badge-count,
+html.df-linkedin-hide-msg-badge-disabled .presence-entity__indicator {
+  display: revert !important;
+}
+
+/* === E1: Hide Open to Work / Hiring Banners === */
+
+.open-to-work-badge,
+[data-test-id="open-to-work-signal"],
+[data-df-hide-otw="true"] {
+  display: none !important;
+}
+
+html.df-linkedin-hide-otw-banners-disabled .open-to-work-badge,
+html.df-linkedin-hide-otw-banners-disabled [data-test-id="open-to-work-signal"],
+html.df-linkedin-hide-otw-banners-disabled [data-df-hide-otw="true"] {
+  display: revert !important;
+}
+
+/* === E2: Hide "People Also Viewed" (JS-tagged) === */
+
+[data-df-hide-people-also-viewed="true"],
+#browsemap {
+  display: none !important;
+}
+
+html.df-linkedin-hide-people-also-viewed-disabled [data-df-hide-people-also-viewed="true"],
+html.df-linkedin-hide-people-also-viewed-disabled #browsemap {
+  display: revert !important;
+}
+
+/* === E3: Hide Birthdays & Anniversaries === */
+
+.share-celebration-module,
+[data-test-id="celebrations"],
+[data-df-hide-celebrations="true"] {
+  display: none !important;
+}
+
+html.df-linkedin-hide-celebrations-disabled .share-celebration-module,
+html.df-linkedin-hide-celebrations-disabled [data-test-id="celebrations"],
+html.df-linkedin-hide-celebrations-disabled [data-df-hide-celebrations="true"] {
+  display: revert !important;
+}
+
+/* === F1: Hide Connection & Follower Counts (JS-tagged) === */
+
+[data-df-hide-connection-counts="true"] {
+  display: none !important;
+}
+
+html.df-linkedin-hide-connection-counts-disabled [data-df-hide-connection-counts="true"] {
   display: revert !important;
 }
 

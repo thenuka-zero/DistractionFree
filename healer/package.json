@@ -5,9 +5,11 @@
   "type": "module",
   "main": "healer.js",
   "scripts": {
-    "check": "node healer.js --check",
-    "fix":   "node healer.js --fix",
-    "login": "node healer.js --login"
+    "check":  "node healer.js --check",
+    "fix":    "node healer.js --fix",
+    "login":  "node healer.js --login",
+    "verify": "node verify-feed.mjs",
+    "dev":    "node dev-reload.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.52.0",

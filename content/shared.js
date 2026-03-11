@@ -22,15 +22,20 @@ const DistractionFree = (() => {
     container.innerHTML = `
       <div class="df-quote-inner">
         <div class="df-quote-mascot">
-          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="32" cy="32" r="28" fill="#7C5CFC"/>
-            <circle cx="22" cy="26" r="4" fill="white"/>
-            <circle cx="42" cy="26" r="4" fill="white"/>
-            <circle cx="23" cy="27" r="2" fill="#2D1B69"/>
-            <circle cx="43" cy="27" r="2" fill="#2D1B69"/>
-            <path d="M24 38 Q32 46 40 38" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-            <circle cx="14" cy="32" r="4" fill="#E8A4E8" opacity="0.5"/>
-            <circle cx="50" cy="32" r="4" fill="#E8A4E8" opacity="0.5"/>
+          <svg width="80" height="80" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="96" fill="#FDF6EC"/>
+            <ellipse cx="100" cy="115" rx="72" ry="68" fill="#E8943C"/>
+            <ellipse cx="80" cy="95" rx="30" ry="22" fill="#F0B870" opacity="0.5"/>
+            <rect x="95" y="42" width="10" height="18" rx="5" fill="#5B8C3E"/>
+            <ellipse cx="82" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(-25 82 52)"/>
+            <ellipse cx="118" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(25 118 52)"/>
+            <ellipse cx="80" cy="112" rx="8" ry="9" fill="#3D2417"/>
+            <ellipse cx="120" cy="112" rx="8" ry="9" fill="#3D2417"/>
+            <circle cx="83" cy="108" r="3.5" fill="white"/>
+            <circle cx="123" cy="108" r="3.5" fill="white"/>
+            <path d="M88 126 Q100 138 112 126" stroke="#3D2417" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <ellipse cx="66" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
+            <ellipse cx="134" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
           </svg>
         </div>
         <p class="df-quote-text">\u201C${quote.text}\u201D</p>
@@ -52,21 +57,42 @@ const DistractionFree = (() => {
   }
 
   /**
-   * Read settings from chrome.storage.sync
+   * Read settings synchronously from sessionStorage cache.
+   * Returns the cached settings object, or null if not yet cached.
+   * Used at document_start to apply settings before any DOM renders (zero-flash).
+   */
+  function getSettingsSync() {
+    try {
+      const raw = sessionStorage.getItem('df_settings_cache');
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /**
+   * Read settings from chrome.storage.sync.
+   * Also writes to sessionStorage cache so the next page load can apply
+   * settings synchronously via getSettingsSync() before any DOM renders.
    */
   function getSettings(callback) {
     chrome.storage.sync.get("settings", (result) => {
-      callback(result.settings || {});
+      const settings = result.settings || {};
+      try { sessionStorage.setItem('df_settings_cache', JSON.stringify(settings)); } catch (e) {}
+      callback(settings);
     });
   }
 
   /**
-   * Listen for storage changes and invoke callback with new settings
+   * Listen for storage changes and invoke callback with new settings.
+   * Also refreshes the sessionStorage cache so the next page load applies
+   * the latest settings synchronously via getSettingsSync().
    */
   function onSettingsChanged(site, callback) {
     chrome.storage.onChanged.addListener((changes, area) => {
       if (area === "sync" && changes.settings) {
         const newSettings = changes.settings.newValue || {};
+        try { sessionStorage.setItem('df_settings_cache', JSON.stringify(newSettings)); } catch (e) {}
         callback(newSettings[site] || {});
       }
     });
@@ -113,6 +139,15 @@ const DistractionFree = (() => {
    * Intercepts pushState/replaceState and dispatches 'df-url-change' event.
    */
   function detectSPANavigation(callback) {
+    if (window.navigation) {
+      // Navigation API (Chrome 102+) fires for all navigations in every world,
+      // including SPA pushState/replaceState called by the page's own JS.
+      // The history.pushState wrapping below only catches calls made from this
+      // extension's isolated world, so it never fires for LinkedIn navigations.
+      window.navigation.addEventListener('navigate', callback);
+      return;
+    }
+    // Fallback for older browsers (Chrome < 102).
     const wrap = (method) => {
       const orig = history[method];
       history[method] = function() {
@@ -133,15 +168,37 @@ const DistractionFree = (() => {
     document.querySelectorAll(".df-quote-container").forEach(el => el.remove());
   }
 
+  /**
+   * Inject a CSS string into the page via document.adoptedStyleSheets.
+   *
+   * Using adoptedStyleSheets instead of a manifest-declared CSS file means the
+   * rules come from the JS content script, which Chrome re-reads from disk on
+   * every page load.  Manifest CSS files are compiled and cached at extension
+   * load time — so CSS-only edits would require an extension reload to take
+   * effect.  With this approach, saving a file and refreshing the tab is
+   * sufficient for any JS or CSS change.
+   *
+   * @param {string} css  - Full CSS text to apply
+   * @returns {CSSStyleSheet} the adopted sheet (can be mutated later if needed)
+   */
+  function injectCSS(css) {
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(css);
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+    return sheet;
+  }
+
   return {
     getRandomQuote,
     createQuoteElement,
     injectQuote,
+    getSettingsSync,
     getSettings,
     onSettingsChanged,
     toggleFeature,
     observeDOM,
     detectSPANavigation,
-    removeAllQuotes
+    removeAllQuotes,
+    injectCSS,
   };
 })();

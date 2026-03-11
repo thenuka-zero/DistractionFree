@@ -8,7 +8,7 @@
 
   <key>ProgramArguments</key>
   <array>
-    <string>/usr/local/bin/node</string>
+    <string>/opt/homebrew/bin/node</string>
     <string>/Users/thenukakarunaratne/distractionfree/healer/healer.js</string>
     <string>--fix</string>
   </array>
@@ -27,9 +27,9 @@
   <key>EnvironmentVariables</key>
   <dict>
     <key>ANTHROPIC_API_KEY</key>
-    <string>YOUR_KEY_HERE</string>
+    <string></string>
     <key>PATH</key>
-    <string>/usr/local/bin:/usr/bin:/bin</string>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
   </dict>
 
   <key>StandardOutPath</key>

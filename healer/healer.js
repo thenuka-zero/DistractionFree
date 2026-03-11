@@ -124,7 +124,7 @@ async function reloadExtension(browserContext, page) {
   // content script rules take effect on the next page load without a full
   // extension reload.
   log('[healer] Navigating to fresh feed page to pick up updated extension files...');
-  await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'networkidle' });
+  await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'domcontentloaded', timeout: 60_000 });
 }
 
 // ---------------------------------------------------------------------------
@@ -196,7 +196,7 @@ async function runHealthCheckOnly() {
   const browser  = await launchWithSession(headless);
   const page     = await browser.newPage();
 
-  await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'networkidle' });
+  await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'domcontentloaded', timeout: 60_000 });
 
   // Session expiry detection.
   if (isSessionExpired(page.url())) {
@@ -211,7 +211,7 @@ async function runHealthCheckOnly() {
 
   // Wait for feed content to appear.
   await page.waitForSelector(
-    '.feed-shared-update-v2, div[data-id^="urn:li:activity:"]',
+    "[data-view-name='feed-full-update']",
     { timeout: 30_000 }
   ).catch(() => {
     log('[healer] WARN: Feed elements did not appear within 30s. Proceeding with health check.');
@@ -247,7 +247,7 @@ async function runDryRun() {
   const browser  = await launchWithSession(headless);
   const page     = await browser.newPage();
 
-  await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'networkidle' });
+  await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'domcontentloaded', timeout: 60_000 });
 
   if (isSessionExpired(page.url())) {
     log('[healer] ERROR: LinkedIn session expired. Run: node healer/healer.js --login');
@@ -256,7 +256,7 @@ async function runDryRun() {
   }
 
   await page.waitForSelector(
-    '.feed-shared-update-v2, div[data-id^="urn:li:activity:"]',
+    "[data-view-name='feed-full-update']",
     { timeout: 30_000 }
   ).catch(() => {
     log('[healer] WARN: Feed elements did not appear within 30s.');
@@ -319,7 +319,7 @@ async function runHealer() {
   const browser  = await launchWithSession(headless);
   const page     = await browser.newPage();
 
-  await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'networkidle' });
+  await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'domcontentloaded', timeout: 60_000 });
 
   // Session expiry detection.
   if (isSessionExpired(page.url())) {
@@ -334,7 +334,7 @@ async function runHealer() {
 
   // Wait up to 30s for any feed post to render.
   await page.waitForSelector(
-    '.feed-shared-update-v2, div[data-id^="urn:li:activity:"]',
+    "[data-view-name='feed-full-update']",
     { timeout: 30_000 }
   ).catch(() => {
     log('[healer] WARN: Feed elements did not appear within 30s. Proceeding anyway.');
@@ -379,6 +379,18 @@ async function runHealer() {
 
       if (!feature) {
         log(`[healer] WARN: Could not find registry entry for selector "${item.selector}". Skipping.`);
+        continue;
+      }
+
+      // skipAutoFix: only monitor — do not attempt CSS rewrite for this feature yet.
+      if (feature.skipAutoFix) {
+        log(`[healer] INFO: "${item.selector}" (${feature.feature}) is ${item.status} — skipAutoFix=true, manual fix required.`);
+        await sendDesktopNotification(
+          'DistractionFree Healer — Action Required',
+          `Selector broken for "${feature.description}". Manual CSS fix needed. Check healer.log.`
+        );
+        const skipEntry = logResults.find(r => r.selector === item.selector);
+        if (skipEntry) skipEntry.action = 'manual-fix-required';
         continue;
       }
 
@@ -498,7 +510,7 @@ async function runHealer() {
 
       // Wait for content to render again.
       await page.waitForSelector(
-        '.feed-shared-update-v2, div[data-id^="urn:li:activity:"]',
+        "[data-view-name='feed-full-update']",
         { timeout: 30_000 }
       ).catch(() => {
         log('[healer] WARN: Feed elements did not reappear after extension reload.');

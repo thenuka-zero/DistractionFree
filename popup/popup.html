@@ -11,45 +11,77 @@
 </head>
 <body>
   <div class="popup-container">
-    <!-- Header with mascot -->
+
+    <!-- Header -->
     <div class="header">
       <div class="mascot">
-        <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="32" cy="34" r="26" fill="#7C5CFC"/>
-          <ellipse cx="32" cy="58" rx="18" ry="3" fill="#E8D5FF" opacity="0.4"/>
-          <!-- Ears -->
-          <circle cx="14" cy="16" r="8" fill="#9B7FFF"/>
-          <circle cx="14" cy="16" r="5" fill="#E8D5FF"/>
-          <circle cx="50" cy="16" r="8" fill="#9B7FFF"/>
-          <circle cx="50" cy="16" r="5" fill="#E8D5FF"/>
-          <!-- Eyes -->
-          <ellipse cx="23" cy="30" rx="5" ry="5.5" fill="white"/>
-          <ellipse cx="41" cy="30" rx="5" ry="5.5" fill="white"/>
-          <circle cx="24" cy="31" r="3" fill="#2D1B69"/>
-          <circle cx="42" cy="31" r="3" fill="#2D1B69"/>
-          <circle cx="25" cy="29.5" r="1.2" fill="white"/>
-          <circle cx="43" cy="29.5" r="1.2" fill="white"/>
-          <!-- Blush -->
-          <ellipse cx="15" cy="36" rx="5" ry="3" fill="#FFB5D9" opacity="0.5"/>
-          <ellipse cx="49" cy="36" rx="5" ry="3" fill="#FFB5D9" opacity="0.5"/>
-          <!-- Smile -->
-          <path d="M26 40 Q32 47 38 40" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <!-- Star on head -->
-          <polygon points="32,6 34,12 40,12 35,16 37,22 32,18 27,22 29,16 24,12 30,12" fill="#FFD93D" stroke="#FFB800" stroke-width="0.5"/>
+        <svg width="56" height="56" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="96" fill="#FDF6EC"/>
+          <ellipse cx="100" cy="115" rx="72" ry="68" fill="#E8943C"/>
+          <ellipse cx="80" cy="95" rx="30" ry="22" fill="#F0B870" opacity="0.5"/>
+          <rect x="95" y="42" width="10" height="18" rx="5" fill="#5B8C3E"/>
+          <ellipse cx="82" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(-25 82 52)"/>
+          <ellipse cx="118" cy="52" rx="18" ry="8" fill="#6EAE3E" transform="rotate(25 118 52)"/>
+          <ellipse cx="80" cy="112" rx="8" ry="9" fill="#3D2417"/>
+          <ellipse cx="120" cy="112" rx="8" ry="9" fill="#3D2417"/>
+          <circle cx="83" cy="108" r="3.5" fill="white"/>
+          <circle cx="123" cy="108" r="3.5" fill="white"/>
+          <path d="M88 126 Q100 138 112 126" stroke="#3D2417" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <ellipse cx="66" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
+          <ellipse cx="134" cy="124" rx="10" ry="7" fill="#F5A0A0" opacity="0.6"/>
         </svg>
       </div>
       <h1 class="title">DistractionFree</h1>
       <p class="subtitle">Stay focused, stay awesome!</p>
     </div>
 
-    <!-- LinkedIn section -->
-    <div class="section">
-      <div class="section-label">💼 LinkedIn</div>
+    <!-- Site label -->
+    <div class="site-label">💼 LinkedIn</div>
 
+    <!-- Toggles -->
+    <div class="card">
       <div class="toggle-row" data-site="linkedin" data-key="feedEnabled">
-        <div class="toggle-info">
-          <span class="site-name">Hide Feed</span>
-        </div>
+        <span class="site-name">Hide Feed</span>
+        <label class="toggle-switch">
+          <input type="checkbox" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="divider"></div>
+      <div class="toggle-row" data-site="linkedin" data-key="hideNewsSidebar">
+        <span class="site-name">Hide Top Stories</span>
+        <label class="toggle-switch">
+          <input type="checkbox" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="divider"></div>
+      <div class="toggle-row" data-site="linkedin" data-key="hideStartPost">
+        <span class="site-name">Hide Start a Post</span>
+        <label class="toggle-switch">
+          <input type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="divider"></div>
+      <div class="toggle-row" data-site="linkedin" data-key="hideMyPages">
+        <span class="site-name">Hide My Pages</span>
+        <label class="toggle-switch">
+          <input type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="divider"></div>
+      <div class="toggle-row" data-site="linkedin" data-key="hideFollowPages">
+        <span class="site-name">Hide Follow Suggestions</span>
+        <label class="toggle-switch">
+          <input type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="divider"></div>
+      <div class="toggle-row" data-site="linkedin" data-key="hideStatsDashboard">
+        <span class="site-name">Hide Stats Dashboard</span>
         <label class="toggle-switch">
           <input type="checkbox" checked>
           <span class="slider"></span>
@@ -58,7 +90,7 @@
     </div>
 
     <div class="footer">
-      Made with 💜 to help you focus
+      Made with 🧡 to help you focus
     </div>
   </div>
 
