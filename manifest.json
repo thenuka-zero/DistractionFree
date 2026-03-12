@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "description": "Block distracting feeds, sidebars, badges, and upsells on LinkedIn.",
   "permissions": ["storage", "alarms"],
-  "host_permissions": ["*://*.linkedin.com/*", "http://127.0.0.1:9876/*"],
+  "host_permissions": ["*://*.linkedin.com/*", "*://*.youtube.com/*", "http://127.0.0.1:9876/*"],
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",
@@ -31,6 +31,11 @@
     {
       "matches": ["*://*.linkedin.com/*"],
       "js": ["data/quotes.js", "content/shared.js", "content/linkedin.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["data/quotes.js", "content/shared.js", "content/youtube.js"],
       "run_at": "document_start"
     }
   ]

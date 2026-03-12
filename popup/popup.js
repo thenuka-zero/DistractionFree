@@ -4,6 +4,9 @@
  */
 (function () {
   const DEFAULT_SETTINGS = {
+    youtube: {
+      feedEnabled: true,
+    },
     linkedin: {
       feedEnabled:            true,
       hidePYMK:               true,

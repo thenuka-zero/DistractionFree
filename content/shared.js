@@ -23,7 +23,6 @@ const DistractionFree = (() => {
       <div class="df-quote-inner">
         <div class="df-quote-mascot">
           <svg width="80" height="80" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="96" fill="#FDF6EC"/>
             <ellipse cx="100" cy="115" rx="72" ry="68" fill="#E8943C"/>
             <ellipse cx="80" cy="95" rx="30" ry="22" fill="#F0B870" opacity="0.5"/>
             <rect x="95" y="42" width="10" height="18" rx="5" fill="#5B8C3E"/>
@@ -181,6 +180,54 @@ const DistractionFree = (() => {
    * @param {string} css  - Full CSS text to apply
    * @returns {CSSStyleSheet} the adopted sheet (can be mutated later if needed)
    */
+  // Inject shared quote styles once, at load time.
+  // Each site script only needs to inject site-specific overrides
+  // (e.g. hide the quote when the feed toggle is off).
+  (function injectSharedQuoteCSS() {
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+.df-quote-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: 48px 24px;
+}
+.df-quote-inner {
+  text-align: center;
+  max-width: 480px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.df-quote-mascot {
+  margin-bottom: 16px;
+  animation: df-levitate 4s ease-in-out infinite;
+}
+@keyframes df-levitate {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+.df-quote-text {
+  font-size: 20px;
+  line-height: 1.5;
+  color: #2D1B69;
+  margin: 0 0 12px;
+  font-weight: 500;
+}
+.df-quote-author {
+  font-size: 14px;
+  color: #7C5CFC;
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+.df-quote-tagline {
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+}
+    `);
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+  })();
+
   function injectCSS(css) {
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(css);

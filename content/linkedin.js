@@ -278,45 +278,8 @@ html.df-linkedin-hide-celebrations-disabled [data-df-hide-celebrations="true"] {
 [data-df-hide-connection-counts="true"] { display: none !important; }
 html.df-linkedin-hide-connection-counts-disabled [data-df-hide-connection-counts="true"] { display: revert !important; }
 
-/* Quote styling */
-.df-quote-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 300px;
-  padding: 48px 24px;
-}
-
+/* Quote: hide when feed toggle is off */
 html.df-linkedin-disabled .df-quote-container { display: none !important; }
-
-.df-quote-inner {
-  text-align: center;
-  max-width: 480px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-.df-quote-mascot { margin-bottom: 16px; }
-
-.df-quote-text {
-  font-size: 20px;
-  line-height: 1.5;
-  color: #2D1B69;
-  margin: 0 0 12px;
-  font-weight: 500;
-}
-
-.df-quote-author {
-  font-size: 14px;
-  color: #7C5CFC;
-  margin: 0 0 8px;
-  font-weight: 600;
-}
-
-.df-quote-tagline {
-  font-size: 13px;
-  color: #999;
-  margin: 0;
-}
   `);
 
   function isFeedPage() {
